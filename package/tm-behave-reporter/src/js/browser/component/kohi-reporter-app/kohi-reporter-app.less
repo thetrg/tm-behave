@@ -1,0 +1,179 @@
+// Common Breakpoints
+// ref: https://www.browserstack.com/guide/responsive-design-breakpoints
+@desktop: 1280px;
+@tablet: 760px;
+@smartphone: 480px;
+@phone: 320px;
+
+@border-color: darken(#fff, 15%);
+@max-width: 100%;
+// @max-width: 1200px;
+// @max-width: 360px;
+// @max-width: 920px;
+@label-margin: 2px;
+
+@error-color: #DB524B;
+@success-color: #58B957;
+@todo-color: #2499F3;
+ 
+.kohi-reporter-app.component {
+  // border: 10px solid red;
+  // border: 1px solid @border-color;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+  height: 100vh;
+  max-width: @max-width;
+  overflow: hidden;
+}
+.kohi-reporter-app.component > .body {
+  border: 0px solid green;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  overflow: auto;
+  padding: 0;
+  // padding: 20px;
+  height: 100%;
+}
+
+@spacing: 8px;
+.kohi-reporter-app.component > .body > .area {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+  max-width: 50%;
+  overflow: auto;
+
+  & > h3 {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 4px;
+  }
+}
+.kohi-reporter-app.component > .body .specs.area {
+  border: 0px solid red;
+  border-right: 1px solid @border-color;
+  padding: @spacing;
+}
+.kohi-reporter-app.component > .body .coverage.area {
+  border: 0px solid blue;
+  padding: @spacing;
+}
+// .kohi-reporter-app.component #summary-area.uk-active {
+.kohi-reporter-app.component > .header {
+  // border: 10px solid blue;
+  @spacing: 8px;
+
+  display: flex;
+  // flex-grow: 1;
+  // display: grid;
+  gap: @spacing;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  // margin: 0 auto;
+  padding: @spacing;
+
+  // @media (min-width: @tablet) {
+  //   // background-color: red;
+  //   grid-template-columns: repeat(4, 1fr);
+  //   grid-template-rows: repeat(1, 1fr);
+  // }
+  // @media (max-width: @phone) {
+  //   // background-color: green;
+  //   grid-template-columns: repeat(1, 1fr);
+  //   grid-template-rows: repeat(4, 1fr);
+  //   margin: initial;
+  //   max-width: 100vw;
+  // }
+}
+.kohi-reporter-app.component .uk-card {
+  border: 1px solid @border-color;
+  box-sizing: border-box;
+  flex-grow: 2;
+  padding: 8px 12px;
+  // grid-column: 1;
+  // grid-row: 1;
+}
+.kohi-reporter-app.component .uk-card.fail {
+  // @media (max-width: @phone) {
+  //   grid-column: 1;
+  //   grid-row: 1;
+  // }
+}
+.kohi-reporter-app.component .uk-card.pass {
+  // grid-column: 2 / 2;
+  // @media (min-width: @tablet) {
+  //   grid-column: 2;
+  //   grid-row: 1;
+  // }
+  // @media (max-width: @phone) {
+  //   grid-column: 1;
+  //   grid-row: 2;
+  // }
+}
+.kohi-reporter-app.component .uk-card.todo {
+  // grid-row: 2;
+  // @media (min-width: @tablet) {
+  //   grid-column: 3;
+  //   grid-row: 1;
+  // }
+  // @media (max-width: @phone) {
+  //   grid-column: 1;
+  //   grid-row: 3;
+  // }
+}
+.kohi-reporter-app.component .uk-card.total {
+  // grid-column: 2 / 2;
+  // grid-row: 2;
+  // @media (min-width: @tablet) {
+  //   grid-column: 4;
+  //   grid-row: 1;
+  // }
+  // @media (max-width: @phone) {
+  //   grid-column: 1;
+  //   grid-row: 4;
+  // }
+}
+.kohi-reporter-app.component .uk-card .header .label {
+  font-size: 12px;
+  margin-bottom: @label-margin;
+  text-transform: capitalize;
+}
+.kohi-reporter-app.component .uk-card .body .total {
+  font-size: 18px;
+  margin-bottom: @label-margin;
+  text-align: right;
+}
+.kohi-reporter-app.component .uk-card.fail .body .total {
+  color: @error-color;
+}
+.kohi-reporter-app.component .uk-card.pass .body .total {
+  color: @success-color;
+}
+.kohi-reporter-app.component .uk-card.todo .body .total {
+  color: @todo-color;
+}
+.kohi-reporter-app.component .uk-card .footer {
+  font-size: 32px;
+}
+// .kohi-reporter-app.component #explore-area .uk-nav-default li {
+//   border: 1px solid red;
+//   padding: 8px;
+// }
+.kohi-reporter-app.component {
+  display: flex;
+  flex-direction: column;
+}
+.kohi-reporter-app.component > .uk-tab {
+  // border: 10px solid green;
+  margin: 0;
+}
+.kohi-reporter-app.component > .uk-switcher {
+  // border: 10px solid red;
+  flex-grow: 2;
+  margin: 0;
+  overflow: auto;
+}

@@ -1,0 +1,56 @@
+<div id="summary-area" class="header"></div>
+<div class="body">
+  <div class="specs area">
+    <h3>Specs</h3>
+    <kohi-runner-list data-id="1"></kohi-runner-list>
+  </div>
+  <div class="coverage area">
+    <h3>Coverage</h3>
+    <kohi-coverage-list data-id="1"></kohi-coverage-list>
+  </div>
+</div>
+
+<template id="card-template">
+  <div class="uk-card uk-card-default uk-card-small uk-card-body stat card" data-domo="bind: card">
+    <div class="header">
+      <h4 class="uk-card-title label" data-domo="bind: label"></h4>
+    </div>
+    <div class="body">
+      <p class="total" data-domo="bind: total"></p>
+    </div>
+  </div>
+</template>
+
+<template id="specs-template">
+  <div data-domo="bind: specs">
+    <div data-domo="bind: runner">
+      <div data-domo="bind: root">
+        <span data-domo="bind: result"></span>
+        <h4 data-domo="bind: name"></h4>
+      </div>
+    </div>
+    <ul class="uk-nav-default" uk-nav="multiple: true">
+      <li class="uk-active"><a href="#">Active</a></li>
+      <li class="uk-parent">
+        <a href="#">Parent <span uk-nav-parent-icon></span></a>
+        <ul class="uk-nav-sub">
+          <li><a href="#">Sub item</a></li>
+          <li>
+            <a href="#">Sub item</a>
+            <ul>
+              <li><a href="#">Sub item</a></li>
+              <li><a href="#">Sub item</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li class="uk-parent">
+        <a href="#">Parent <span uk-nav-parent-icon></span></a>
+        <ul class="uk-nav-sub">
+          <li><a href="#">Sub item</a></li>
+          <li><a href="#">Sub item</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</template>

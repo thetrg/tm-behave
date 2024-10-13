@@ -1,0 +1,55 @@
+@error-color: #DB524B;
+@success-color: #58B957;
+@todo-color: #2499F3;
+
+.kohi-file-list-item.component .header.open {
+  // border: 1px solid red;
+}
+.kohi-file-list-item.component .header {
+  align-items: center;
+  background-color: lighten(#000, 40%);
+  border-top: 1px dotted darken(#fff, 50%);
+  display: flex;
+  justify-content: flex-start;
+  padding: 4px 8px;
+}
+.kohi-file-list-item.component .header:hover {
+  background-color: lighten(#000, 50%);
+  cursor: pointer;
+}
+.kohi-file-list-item.component .header i {
+  color: #fff;
+  margin-right: 12px;
+  &.fail { color: @error-color; }
+  &.success { color: @success-color; }
+  &.todo { color: @todo-color; }
+}
+.kohi-file-list-item.component .name {
+  color: #fff;
+  font-size: 16px;
+  // font-weight: bold;
+  display: inline-block;
+  margin: 0;
+  // user-select: none;
+}
+.kohi-file-list-item.component ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.kohi-file-list-item.component .body {
+  border: 0px solid green;
+  position: relative;
+}
+.kohi-file-list-item.component .code-iframe {
+  @color: lighten(#000, 30%);
+  border: 0px solid red;
+  border-left: 1px solid @color;
+  border-right: 1px solid @color;
+  box-sizing: border-box;
+  position: relative;
+  left: 0;
+  right: 0;
+  min-height: 480px;
+  width: 100%;
+}
