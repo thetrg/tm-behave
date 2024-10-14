@@ -223,13 +223,12 @@ async function runNextSpec (details = {}) {
   
   id = list [index];  
   spec = getById ({ id, runner });
-  //  console.log ('HUH:', id, spec, runner.registry);
+  // console.log ('HUH:', id, spec, runner.registry);
   details.index = details.index + 1;
   if (spec) {
     if (spec.target) {
       try {
         type = spec.target.constructor.name;
-        
         if (type === 'Function' || type === 'AsyncFunction') {
           result = spec.target ();
           if (result && result.constructor.name === 'Promise') {
@@ -240,6 +239,11 @@ async function runNextSpec (details = {}) {
         }
         else if (type === 'Object') {
           if (Object.keys (spec.target).length === 0) {
+            setSpecAsTodo ({ runner, spec });
+          }
+        }
+        else if (type === 'Array') {
+          if (spec.target.length === 0) {
             setSpecAsTodo ({ runner, spec });
           }
         }
@@ -255,6 +259,7 @@ async function runNextSpec (details = {}) {
       }
     }
     else {
+      console.log('type:', spec);
       setSpecAsTodo ({ runner, spec });
     }
 
@@ -283,8 +288,7 @@ function setSpecAsTodo (details = {}) {
   }
 }
 
-export function specs (details, parent) {
-  // let end, i, key, keys, runner, spec, target, type;
+export async function specs (details, parent) {
   let runner, type;
 
   runner = getRunner ();
@@ -297,37 +301,58 @@ export function specs (details, parent) {
   }
   
   if (type === 'Object') {
-    // console.log ('HERE 1:', type);
-    specsFromObject (details);
+    await specsFromObject (details, parent);
   }
   else if (type === 'Array') {
-    console.log ('HERE 2:', type);
-    specs
+    await specsFromArray ({
+      index: 0,
+      list: details,
+      parent,
+    });
   }
-  
-  /*
-  keys = Object.keys (details);
-  end = keys.length;
-
-  for (i = 0; i < end; i++) {
-    key = keys [i];
-    target = details [key];
-    spec = createSpec ({ name: key, parent });
-
-    if (target) {
-      type = target.constructor.name;
-      if (type === 'Object') {
-        specs (target, spec.id)
-      }
-      spec.target = target;
-    }
-  }
-  */
 }
 
-function specsFromArray () {}
+async function specsFromArray (details = {}) {
+  let { index, list, parent } = details;
+  let end, i, keys, previous, runner, spec, target, type;
 
-function specsFromObject (details, parent) {
+  runner = getRunner ();
+
+  end = list.length;
+
+  // TODO: Refactor to be more async await compatible
+  for (i = 0; i < end; i++) {
+    target = list [i];
+    if (target) {
+      type = target.constructor.name;
+      if (type === 'String') {
+        spec = createSpec ({ name: target, parent });
+        previous = spec;
+        // console.log (target);
+      }
+      else if (previous && (type === 'Function' || type === 'AsyncFunction')) {
+        previous.target = target;
+        // console.log ('HWDF', previous);
+      }
+      else if (previous && type === 'Array') {
+        previous.target = target;
+        specsFromArray ({
+          index: 0,
+          list: target,
+          parent: previous.id,
+        });
+      }
+      else if (previous && type === 'Object') {
+        throw new Error ('Objects in array definitions are Not implemented yet...');
+      }
+    }
+  }
+  // keys = Object.keys (details);
+  // end = keys.length;
+  // console.log ('HERE 2:', list);
+}
+
+async function specsFromObject (details, parent) {
   let end, i, key, keys, runner, spec, target, type;
 
   runner = getRunner ();
@@ -335,6 +360,7 @@ function specsFromObject (details, parent) {
   keys = Object.keys (details);
   end = keys.length;
 
+  // TODO: Refactor to be more async await compatible
   for (i = 0; i < end; i++) {
     key = keys [i];
     target = details [key];
@@ -343,8 +369,16 @@ function specsFromObject (details, parent) {
     if (target) {
       type = target.constructor.name;
       if (type === 'Object') {
-        specs (target, spec.id)
+        specsFromObject (target, spec.id);
       }
+      else if (type === 'Array') {
+        throw new Error ('Arrays in object definitions are Not implemented yet...');
+        // specsFromArray ({ 
+        //   index: 0, 
+        //   list: target, 
+        //   parent: spec.id 
+        // });
+      } 
       spec.target = target;
     }
   }
