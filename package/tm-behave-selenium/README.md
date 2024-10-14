@@ -1,4 +1,4 @@
-# TM Behave Webdriver Selenium
+# TM Behave Selenium
 
 A tool built to work with Selenium to drive website interaction and end to end testing.
 

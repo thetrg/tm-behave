@@ -1,0 +1,12 @@
+{
+  "name": "@thetrg/tm-behave-selenium",
+  "version": "0.1.0",
+  "description": "A tool built to work with Selenium to drive website interaction and end to end testing.",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
