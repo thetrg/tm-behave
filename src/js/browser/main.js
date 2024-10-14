@@ -1,12 +1,38 @@
 import { run } from '@/common/index.js';
-import '@/common/index.spec.js';
 import './index.css';
 
-function start () {
+async function start () {
+  let mod, params;
+
+  params = parseQueryString ();
+  if (params.mode === 'feature') {
+    mod = await import ('~/package/tm-behave-feature/index.spec.js');
+  }
+  else {
+    mod = await import ('@/common/index.spec.js');
+  }
   run ();
 }
 
 start ();
+
+function parseQueryString () {
+  let end, i, item, list, result, url;
+  result = {};
+  url = location.search;
+  if (url) {
+    list = url.substring (1).split('&');
+    end = list.length;
+    for (i = 0; i < end; i++) {
+      item = list [i];
+      item = item.split ('=', 2);
+      result [item [0]] = item [1];
+      // console.log (item);
+    }
+    // console.log (url, list, result);
+  }
+  return result;
+}
 
 /*
 import javascriptLogo from '/image/javascript.svg';

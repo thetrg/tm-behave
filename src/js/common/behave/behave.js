@@ -259,8 +259,10 @@ async function runNextSpec (details = {}) {
       }
     }
     else {
-      console.log('type:', spec);
-      setSpecAsTodo ({ runner, spec });
+      if (spec.isRoot !== true) {
+        setSpecAsTodo ({ runner, spec });
+      }
+      // console.log('type:', spec);
     }
 
     // Run the child specs

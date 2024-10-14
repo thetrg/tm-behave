@@ -1,8 +1,9 @@
 import { expect, specs } from '@/common/index.js';
 
-// NOTE: - result: { fail: 0, pass: 10, todo: 2 }
+// // NOTE: - result: { fail: 0, pass: 10, todo: 2 }
 specs ({
   'sample spec 1': {
+    'spec 1': null,
 //    // 'before all': () => {},
 //    // 'before each': () => {},
 //    // 'after all': () => {},
@@ -26,6 +27,8 @@ specs ({
 
 specs ([
   'sample spec 1', [
+    'spec 1',
+    // 'spec 2',
     'sample spec 1/1', () => {
       expect (1).is (1);
     },

@@ -19,6 +19,7 @@ export default defineConfig((config) => ({
   resolve: {
     alias: {
       "@": fileURLToPath (new URL ('./src/js', import.meta.url)),
+      "~/package": fileURLToPath (new URL ('./package', import.meta.url)),
     },
   },
   root: 'src/js/browser',
