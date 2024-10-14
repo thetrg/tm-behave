@@ -1,1 +1,1 @@
-import './kohi.spec.js';
+import './behave/index.spec.js';

@@ -283,13 +283,54 @@ function setSpecAsTodo (details = {}) {
   }
 }
 
-export function specs (details = {}, parent) {
-  let end, i, key, keys, runner, spec, target, type;
+export function specs (details, parent) {
+  // let end, i, key, keys, runner, spec, target, type;
+  let runner, type;
 
   runner = getRunner ();
   if (!parent) { 
     parent = runner.root;
   }
+
+  if (details) {
+    type = details.constructor.name;
+  }
+  
+  if (type === 'Object') {
+    // console.log ('HERE 1:', type);
+    specsFromObject (details);
+  }
+  else if (type === 'Array') {
+    console.log ('HERE 2:', type);
+    specs
+  }
+  
+  /*
+  keys = Object.keys (details);
+  end = keys.length;
+
+  for (i = 0; i < end; i++) {
+    key = keys [i];
+    target = details [key];
+    spec = createSpec ({ name: key, parent });
+
+    if (target) {
+      type = target.constructor.name;
+      if (type === 'Object') {
+        specs (target, spec.id)
+      }
+      spec.target = target;
+    }
+  }
+  */
+}
+
+function specsFromArray () {}
+
+function specsFromObject (details, parent) {
+  let end, i, key, keys, runner, spec, target, type;
+
+  runner = getRunner ();
 
   keys = Object.keys (details);
   end = keys.length;

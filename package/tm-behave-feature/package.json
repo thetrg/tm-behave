@@ -2,10 +2,10 @@
   "name": "@thetrg/tm-behave-feature",
   "version": "0.1.0",
   "description": "Integrate BDD features with Gherkin syntax with behave tools.",
-  "main": "index.js",
   "keywords": [],
   "author": "The TRG, LLC",
   "license": "MIT",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

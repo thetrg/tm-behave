@@ -12,6 +12,33 @@ const tags = empty;
 
 // ref: https://automationpanda.com/2017/01/27/bdd-101-gherkin-by-example/
 
+describe ('some feature', () => {},
+  it ('does something 1'), () => {});
+  it ('does something 2'), () => {});
+});
+
+describe ('some feature',
+  'does something 1', () => {},
+  'does something 2', () => {},
+);
+
+['describe some feature', [
+  'it does something 1',
+  'it does something 2', () => {
+    const age = 34;
+  },
+  'it does something 3', [
+    'describe some sub feature', [
+      'it does something specfic'
+    ],
+  ],
+  'it does something 4', [
+    'describe some sub feature', [
+      'it does something specfic'
+    ],
+  ],
+]];
+
 // A Simple Feature
 feature ('Google Searching',
   'As a web surfer, I want to search Google, so that I can learn new things.',
@@ -22,6 +49,15 @@ feature ('Google Searching',
     then ('results for "panda" are shown'),
   ),
 )
+
+['feature: google searching',
+  'as a web surver, I want to search Google, so that I can learn new things.',
+  
+  'scenario: simple google search',
+    'given a web browser is on the Google page',
+    'when the search phrase "panda" is entered',
+    'then the results for "panda" are shown',
+];
 
 // Additonal Steps
 feature ('Google Searching',
