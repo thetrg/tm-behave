@@ -6,6 +6,8 @@ export async function step (details) {
   specs (details);
 }
 
+export function draft () {}
+
 const empty = () => {}
 const feature = empty;
 const scenario = empty;
