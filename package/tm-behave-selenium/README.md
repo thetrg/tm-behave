@@ -5,3 +5,4 @@ A tool built to work with Selenium to drive website interaction and end to end t
 ## Resources
 
 - [How to Use Selenium in NodeJS (Tutorial 2024)](https://www.zenrows.com/blog/selenium-nodejs#extract-data)
+- [Selenium Webdriver](https://www.selenium.dev/selenium/docs/api/javascript/)

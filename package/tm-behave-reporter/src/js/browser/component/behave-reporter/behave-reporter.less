@@ -1,0 +1,73 @@
+.behave-reporter.component {
+  border: 10px solid red;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+  height: 100vh;
+}
+.behave-reporter.component > .header {
+  border: 10px solid blue;
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 18px;
+}
+.behave-reporter.component > .header .title {
+  display: none;
+}
+.behave-reporter.component > .header .coverage-toggle span {
+  margin-left: 8px;
+}
+.behave-reporter.component > .body {
+  border: 10px solid green;
+  display: flex;
+  flex-grow: 2;
+}
+.behave-reporter.component > .body > .main-area {
+  border: 10px solid orange;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+}
+.behave-reporter.component > .body > .main-area .reports-tab {
+  border: 10px solid yellow;
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.behave-reporter.component > .body > .main-area .reports-tab > li {
+//  border: 10px solid red;
+  cursor: pointer;
+  display: block;
+  font-size: 12px;
+  padding: 8px;
+}
+.behave-reporter.component > .body > .main-area .reports-tab > li:hover {
+  background-color: darkseagreen;
+}
+.behave-reporter.component > .body > .main-area .reports-tab-panels {
+  border: 10px solid magenta;
+  display: flex;
+  flex-grow: 2;
+}
+.behave-reporter.component > .body > .main-area .reports-tab-panels .reports-area {
+  border: 10px solid red;
+  flex-grow: 2;
+}
+.behave-reporter.component > .body > .main-area .reports-tab-panels .reports-area.feature {
+  border: 10px solid green;
+}
+.behave-reporter.component > .body > .main-area .reports-tab-panels .reports-area.spec {
+  border: 10px solid blue;
+}
+.behave-reporter.component > .body > .sidebar {
+  border: 10px solid cyan;
+  display: flex;
+  flex-grow: 2;
+}
+.behave-reporter.component > .body > .main-area .coverage-preview,
+.behave-reporter.component > .body > .sidebar .coverage-preview {
+  border: 10px solid red;
+  flex-grow: 2;
+}

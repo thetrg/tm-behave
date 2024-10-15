@@ -1,15 +1,31 @@
-<div id="summary-area" class="header"></div>
 <div class="body">
-  <div class="specs area">
-    <h3>Specs</h3>
-    <kohi-runner-list data-id="1"></kohi-runner-list>
-  </div>
-  <div class="coverage area">
-    <h3>Coverage</h3>
-    <kohi-coverage-list data-id="1"></kohi-coverage-list>
+  <div class="main-area"></div>
+  <div class="sidebar"></div>
+  <div style="display: none">
+    <div>
+      <ul uk-tab>
+        <li><a href="#">Features</a></li>
+        <li><a href="#">Specs</a></li>
+      </ul>
+      <div class="uk-switcher uk-margin">
+        <div>
+          <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span>
+        </div>
+        <div>
+          <div class="specs area">
+            <h3>Specs</h3>
+            <div id="summary-area" class="header"></div>
+            <kohi-runner-list data-id="1"></kohi-runner-list>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="coverage area">
+      <h3><label><input class="uk-checkbox" type="checkbox">Coverage</label></h3>
+      <kohi-coverage-list data-id="1"></kohi-coverage-list>
+    </div>
   </div>
 </div>
-
 <template id="card-template">
   <div class="uk-card uk-card-default uk-card-small uk-card-body stat card" data-domo="bind: card">
     <div class="header">
@@ -20,7 +36,6 @@
     </div>
   </div>
 </template>
-
 <template id="specs-template">
   <div data-domo="bind: specs">
     <div data-domo="bind: runner">
