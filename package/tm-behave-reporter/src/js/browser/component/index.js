@@ -1,5 +1,5 @@
 import './behave-reporter/index.js';
-
+import './behave-reporter-app/index.js';
 /*
 import './kohi-reporter-app/index.js';
 

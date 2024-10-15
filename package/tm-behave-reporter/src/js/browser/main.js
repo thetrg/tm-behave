@@ -5,7 +5,7 @@ function start () {
   let dom, parent;
   parent = document.querySelector ('#app');
   if (parent) {
-    dom = document.createElement ('behave-reporter');  
+    dom = document.createElement ('behave-reporter-app');  
     parent.appendChild (dom);
   }
 }

@@ -1,5 +1,7 @@
+@border-color: lighten(#000, 70%);
+
 .behave-reporter.component {
-  border: 10px solid red;
+//  border: 10px solid red;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -7,7 +9,8 @@
   height: 100vh;
 }
 .behave-reporter.component > .header {
-  border: 10px solid blue;
+//  border: 10px solid blue;
+  border-bottom: 1px solid @border-color;
   display: flex;
   justify-content: flex-end;
   padding: 8px 18px;
@@ -19,18 +22,19 @@
   margin-left: 8px;
 }
 .behave-reporter.component > .body {
-  border: 10px solid green;
+//  border: 10px solid green;
   display: flex;
   flex-grow: 2;
 }
 .behave-reporter.component > .body > .main-area {
-  border: 10px solid orange;
+//  border: 10px solid orange;
   display: flex;
   flex-direction: column;
   flex-grow: 2;
 }
 .behave-reporter.component > .body > .main-area .reports-tab {
-  border: 10px solid yellow;
+//  border: 10px solid yellow;
+  border-bottom: 1px solid @border-color;
   display: flex;
   list-style: none;
   margin: 0;
@@ -42,32 +46,47 @@
   display: block;
   font-size: 12px;
   padding: 8px;
+  user-select: none;
 }
 .behave-reporter.component > .body > .main-area .reports-tab > li:hover {
   background-color: darkseagreen;
 }
 .behave-reporter.component > .body > .main-area .reports-tab-panels {
-  border: 10px solid magenta;
+//  border: 10px solid magenta;
   display: flex;
   flex-grow: 2;
+  position: relative;
 }
 .behave-reporter.component > .body > .main-area .reports-tab-panels .reports-area {
-  border: 10px solid red;
+//  border: 10px solid red;
+  bottom: 0;
   flex-grow: 2;
+  left: 0;
+  overflow: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 .behave-reporter.component > .body > .main-area .reports-tab-panels .reports-area.feature {
-  border: 10px solid green;
+//  border: 10px solid green;
 }
 .behave-reporter.component > .body > .main-area .reports-tab-panels .reports-area.spec {
-  border: 10px solid blue;
+//  border: 10px solid blue;
+  display: none; // TEMPORARY
+}
+.behave-reporter.component > .body > .main-area .reports-tab-panels .reports-area .test {
+//  border: 10px solid cyan;
+  overflow: auto;
 }
 .behave-reporter.component > .body > .sidebar {
-  border: 10px solid cyan;
+//  border: 10px solid cyan;
   display: flex;
   flex-grow: 2;
+  max-width: 50%;
 }
 .behave-reporter.component > .body > .main-area .coverage-preview,
 .behave-reporter.component > .body > .sidebar .coverage-preview {
-  border: 10px solid red;
+//  border: 10px solid red;
+  border-left: 1px solid @border-color;
   flex-grow: 2;
 }

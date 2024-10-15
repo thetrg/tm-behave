@@ -1,0 +1,1 @@
+export const BEHAVE_REPORTER_APP_TAG = 'behave-reporter-app';
