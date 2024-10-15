@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@fontsource-variable/montserrat':
+        specifier: ^5.1.0
+        version: 5.1.0
+      '@fontsource-variable/nunito':
+        specifier: ^5.1.0
+        version: 5.1.0
       '@shoelace-style/shoelace':
         specifier: ^2.17.1
         version: 2.17.1(@types/react@18.3.11)
@@ -38,9 +44,15 @@ importers:
       istanbul-middleware:
         specifier: ^0.2.2
         version: 0.2.2
+      modern-normalize:
+        specifier: ^3.0.1
+        version: 3.0.1
       nyc:
         specifier: ^17.1.0
         version: 17.1.0
+      page.js:
+        specifier: ^4.13.3
+        version: 4.13.3
       restana:
         specifier: ^4.9.9
         version: 4.9.9
@@ -302,6 +314,12 @@ packages:
 
   '@floating-ui/utils@0.2.8':
     resolution: {integrity: sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig==}
+
+  '@fontsource-variable/montserrat@5.1.0':
+    resolution: {integrity: sha512-1bloVBKJx/ABBmF+/VzhJZDLzaDNUxw/8Pt5AOgfKL6N3t1fAhwtJBb1gdqU7ABckSNLsKf572A5Inv9YneRug==}
+
+  '@fontsource-variable/nunito@5.1.0':
+    resolution: {integrity: sha512-58KMaWHfR+cci4ZMPvoa2hVF9PV0g1gV8jilgFWDxToh3UrpOtrAiGluDZ8eqK5jDZX7v1GbMAKohvjJRBmgfg==}
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -1310,6 +1328,10 @@ packages:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
     hasBin: true
 
+  modern-normalize@3.0.1:
+    resolution: {integrity: sha512-VqlMdYi59Uch6fnUPxnpijWUQe+TW6zeWCvyr6Mb7JibheHzSuAAoJi2c71ZwIaWKpECpGpYHoaaBp6rBRr+/g==}
+    engines: {node: '>=6'}
+
   ms@0.7.1:
     resolution: {integrity: sha512-lRLiIR9fSNpnP6TC4v8+4OU7oStC01esuNowdQ34L+Gk8e5Puoc88IqJ+XAY/B3Mn2ZKis8l8HX90oU8ivzUHg==}
 
@@ -1421,6 +1443,9 @@ packages:
   package-json-from-dist@1.0.1:
     resolution: {integrity: sha512-UEZIS3/by4OC8vL3P2dTXRETpebLI2NiI5vIrjaD/5UtrkFX/tNbwjTSRAGC/+7CAo2pIcBaRgWmcBBHcsaCIw==}
 
+  page.js@4.13.3:
+    resolution: {integrity: sha512-43Qxp+DihGW4OK1tGmyP2WQONsOf9Ews0wxbxSq0Cq8hCDxF2bZ4GR86DN1Klv8oRJrY0hQjDuM1tBXC3BRjyg==}
+
   parse-node-version@1.0.1:
     resolution: {integrity: sha512-3YHlOa/JgH6Mnpr05jP9eDG254US9ek25LyIxZlDItp2iJtwyaXQb57lBYLdT3MowkUFYEV2XXNAYIPlESvJlA==}
     engines: {node: '>= 0.10'}
@@ -1447,6 +1472,9 @@ packages:
 
   path-to-regexp@0.1.10:
     resolution: {integrity: sha512-7lf7qcQidTku0Gu3YDPc8DJ1q7OOucfa/BSsIwjuh56VU7katFvuM8hULfkwB3Fns/rsVF7PwPKVw1sl5KQS9w==}
+
+  path-to-regexp@0.1.7:
+    resolution: {integrity: sha512-5DFkuoqlv1uYQKxy8omFBeJPQcdoE07Kv2sferDCrAq1ohOU+MSDswDIbnx3YAM60qIOnYa53wBhXW0EbMonrQ==}
 
   path-to-regexp@1.9.0:
     resolution: {integrity: sha512-xIp7/apCFJuUHdDLWe8O1HIkb0kQrOMb/0u6FXQjemHn/ii5LrIzU6bdECnsiTF/GjZkMEKg1xdiZwNqDYlZ6g==}
@@ -2144,6 +2172,10 @@ snapshots:
       '@floating-ui/utils': 0.2.8
 
   '@floating-ui/utils@0.2.8': {}
+
+  '@fontsource-variable/montserrat@5.1.0': {}
+
+  '@fontsource-variable/nunito@5.1.0': {}
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -3224,6 +3256,8 @@ snapshots:
     dependencies:
       minimist: 1.2.8
 
+  modern-normalize@3.0.1: {}
+
   ms@0.7.1: {}
 
   ms@2.0.0: {}
@@ -3361,6 +3395,10 @@ snapshots:
 
   package-json-from-dist@1.0.1: {}
 
+  page.js@4.13.3:
+    dependencies:
+      path-to-regexp: 0.1.7
+
   parse-node-version@1.0.1: {}
 
   parseurl@1.3.3: {}
@@ -3377,6 +3415,8 @@ snapshots:
       minipass: 7.1.2
 
   path-to-regexp@0.1.10: {}
+
+  path-to-regexp@0.1.7: {}
 
   path-to-regexp@1.9.0:
     dependencies:

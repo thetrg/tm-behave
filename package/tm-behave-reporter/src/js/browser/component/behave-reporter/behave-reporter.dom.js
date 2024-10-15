@@ -3,16 +3,9 @@ import html from './behave-reporter.html?raw';
 import './behave-reporter.less';
 import { createComponent } from '../componet.js';
 
-import 'boxicons/css/boxicons.min.css';
-
-// Use the uikit library
-import UIkit from 'uikit';
-import Icons from 'uikit/dist/js/uikit-icons';
-import 'uikit/dist/css/uikit.min.css';
-
 export class BehaveReporter extends HTMLElement {
   static get observedAttributes() {
-    return ['data-id'];
+    return ['data-id', 'data-name'];
   }
 
   constructor () {
@@ -42,6 +35,10 @@ export class BehaveReporter extends HTMLElement {
       if (item) {
         component.data = item;
       }
+    }
+    else if (name === 'data-name') {
+      value = value.replace (/\-/g, ' ');
+      component.data.name = value;
     }
   }
 }
