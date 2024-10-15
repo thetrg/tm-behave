@@ -1,56 +1,17 @@
+@import '../../index.less';
 
-// ---------------------------------------
-// Dulce UI
-@primary-color: #49a2fc;
-@primary-text-color: #fff;
-@link-text-color: @primary-color;
-
-@button-border-color: @border-color;
-@button-background-color: @primary-color;
-@button-text-color: @primary-text-color;
-
-@spacing-tiny:    4px;
-@spacing-small:   8px;
-@spacing-medium:  12px;
-@spacing-normal:  18px;
-@spacing-large:   24px;
-@spacing-big:     32px;
-@spacing-huge:    32px;
-
-.ui.button {
-  background-color: @button-text-color;
-  border: 1px solid @button-background-color;
-  //  border-radius: 5px;
-  color: @button-background-color;
-  display: inline-block;
-  font-size: 14px;
-  margin-bottom: 4px;
-  padding: 16px 32px;
-  text-decoration: none;
-  
-  &.primary {
-    background-color: @button-background-color;
-    color: @button-text-color;
-  }
+.error.invalid.html.template {
+  // border: 3px solid red;
+  box-sizing: border-box;
+  color: red;
+  padding: @spacing-normal;
 }
-.ui.button:hover {
-  background-color: lighten(@button-background-color, 33%);
-  
-  &.primary {
-    background-color: lighten(@button-background-color, 10%);
-    color: @button-text-color;
-  }
+.error.invalid.html.template .title {
+  margin: 0;
 }
-.hide {
-  display: none !important;
-}
-
-// ---------------------------------------
-
-@border-color: lighten(#000, 85%);
 
 .behave-reporter-app.component {
-//  border: 10px solid red;
+  // border: 10px solid red;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -68,10 +29,10 @@
   }
 }
 .behave-reporter-app.component > .header {
-//  border: 10px solid blue;
+  // border: 10px solid blue;
   border-bottom: 1px solid @border-color;
+  box-sizing: border-box;
   display: flex;
-//  justify-content: flex-end;
   padding: 8px 18px;
 }
 .behave-reporter-app.component > .header .title {
@@ -83,6 +44,7 @@
 }
 .behave-reporter-app.component > .body {
   // border: 10px solid green;
+  box-sizing: border-box;
   display: flex;
   flex-grow: 2;
 }
@@ -90,8 +52,14 @@
   list-style: none;
 }
 .behave-reporter-app.component > .body > .app.route.view {
-  // border: 10px solid blue;
+  // border: 10px solid magenta;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   flex-grow: 2;
+}
+.behave-reporter-app.component > .body > .app.route.view > * {
+  // display: none;
 }
 .behave-reporter-app.component > .body > .app.route.view > .page.error {
   padding: @spacing-small @spacing-large;

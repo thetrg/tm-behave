@@ -1,38 +1,34 @@
 <div class="header">
   <h2 class="title">
-    <span>report name</span>    
+    <span data-domo="bind: name">report name</span>    
   </h2>
-  <label class="coverage-toggle">
-    <input class="uk-checkbox" type="checkbox">
+  <div class="ui checkbox coverage toggle">
+    <input class="toggle coverage" type="checkbox">
     <span>Coverage</span>
-  </label>
+  </div>
 </div>
 <div class="body">
   <div class="main-area">
-    <ul class="reports-tab">
-      <li><a href="#">Features</a></li>
-      <li><a href="#">Specs</a></li>
+    <ul class="ui tabs reports-tab">
+      <li><button class="ui tab button feature">Features</button></li>
+      <li><button class="ui tab button spec">Specs</button></li>
     </ul>
     <div class="reports-tab-panels">
-      <div class="reports-area feature">
-        <div class="test">
-          <ul>
-            <li>Feature Item</li>
-            <li>Feature Item</li>
-            <li>Feature Item</li>
-            <li>Feature Item</li>
-          </ul>
-        </div>
+      <div class="ui tab panels reports-area feature">
+        <ul>
+          <li>Feature Item</li>
+          <li>Feature Item</li>
+          <li>Feature Item</li>
+          <li>Feature Item</li>
+        </ul>
       </div>
-      <div class="reports-area spec">
-        <div class="test">
-          <ul>
-            <li>Spec Item</li>
-            <li>Spec Item</li>
-            <li>Spec Item</li>
-            <li>Spec Item</li>
-          </ul>
-        </div>
+      <div class="ui tab panels reports-area spec hide">
+        <ul>
+          <li>Spec Item</li>
+          <li>Spec Item</li>
+          <li>Spec Item</li>
+          <li>Spec Item</li>
+        </ul>
       </div>
     </div>
   </div>

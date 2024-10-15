@@ -7,12 +7,34 @@ import page from 'page.js';
 import 'modern-normalize/modern-normalize.css';
 import 'boxicons/css/boxicons.min.css';
 import '@fontsource-variable/nunito';
-//import '@fontsource-variable/montserrat';
 
-//// Use the uikit library
-//import UIkit from 'uikit';
-//import Icons from 'uikit/dist/js/uikit-icons';
-//import 'uikit/dist/css/uikit.min.css';
+const shared = {
+  templates: {},
+}
+
+const HTML_TEMPLATE_ERROR = `
+<div class="error invalid html template">
+  <h3 class="title">The component does not have a valid HTML template.</h3>
+</div>
+`;
+
+export function getHtmlTemplate (details = {}) {
+  let { html, name } = details;
+  name = name.toLowerCase ();
+  html = shared.templates [name];
+  if (!html) {
+    html = HTML_TEMPLATE_ERROR;
+  }
+  return html;
+}
+
+export function setHtmlTemplate (details = {}) {
+  let { html, name = '' } = details;
+  name = name.toLowerCase ();
+  if (!shared.templates [name] && html) {
+    shared.templates [name] = html;
+  }
+}
 
 export class BehaveReporterApp extends HTMLElement {
   static get observedAttributes() {
@@ -85,8 +107,8 @@ const PAGE_NOT_FOUND_TEMPLATE = `
 
 const TEMPLATE = `
 <ul class="report listing">
-    <li><a class="ui button primary" href="/report/report-sample-1">Report Sample 1</a></li>
-    <li><a class="ui button primary" href="/report/report-sample-2">Report Sample 2</a></li>
+    <li><a class="ui button" href="/report/report-sample-1">Report Sample 1</a></li>
+    <li><a class="ui button" href="/report/report-sample-2">Report Sample 2</a></li>
     <li><a class="ui button" href="/report/report-sample-3">Report Sample 3</a></li>
   </ul>
 `;
