@@ -4,9 +4,14 @@
   "description": "A tool built to work with Selenium to drive website interaction and end to end testing.",
   "main": "index.js",
   "keywords": [],
-  "author": "",
+  "author": "The TRG, LLC",
   "license": "MIT",
+  "type": "module",
   "scripts": {
+    "start": "node src/js/server/start.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "selenium-webdriver": "^4.25.0"
   }
 }

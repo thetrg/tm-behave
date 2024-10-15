@@ -6,7 +6,9 @@ export async function step (details) {
   specs (details);
 }
 
-export function draft () {}
+export function draft (details) {
+  console.log ('what:', details);
+}
 
 const empty = () => {}
 const feature = empty;

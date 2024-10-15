@@ -113,7 +113,6 @@ export function createSpec (details = {}) {
     //   each: [],
     //   list: [],
     // },
-    // children: [],
     id,
     name,
     parent: parent ? parent : 0,

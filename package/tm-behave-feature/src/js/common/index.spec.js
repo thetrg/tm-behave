@@ -1,1 +1,1 @@
-import './feature/index.spec.js';
+import './feature/feature.spec.js';
