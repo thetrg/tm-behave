@@ -1,5 +1,8 @@
+import './behave-feature-list-item/index.js';
+import './behave-feature-list/index.js';
 import './behave-reporter/index.js';
 import './behave-reporter-app/index.js';
+
 /*
 import './kohi-reporter-app/index.js';
 

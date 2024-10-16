@@ -1,0 +1,101 @@
+@import '../../index.less';
+
+@feature-text-color: lighten(#000, 40%);
+@feature-keyword-text-color: darken(@primary-color, 18%);
+@font-size: @spacing-normal;
+
+.behave-feature-list-item.component {
+  // border: 10px solid red;
+  @spacing: @spacing-tiny;
+  border-top: 1px solid @border-color;
+  box-sizing: border-box;
+  display: block;
+  margin-bottom: @spacing;
+  padding-top: @spacing;
+}
+
+.behave-feature-list-item.component.with-children > li > .header {
+  // border: 1px solid blue;
+}
+.behave-feature-list-item.component > li > .header i.show-more {
+  // border: 1px solid blue;
+  display: none;
+}
+.behave-feature-list-item.component.with-children > li > .header i.show-more {
+  // border: 1px solid red;
+  display: inline-block;
+  font-size: @spacing-large;
+}
+.behave-feature-list-item.component .feature.item {
+  align-items: center;
+  border: 0px solid red;
+  color: @feature-text-color;
+  display: flex;
+  font-size: @font-size;
+  font-weight: 400 !important;
+  justify-content: flex-start;
+  margin: 0;
+  padding: @spacing-tiny;
+}
+.behave-feature-list-item.component .feature.item > .keyword {
+  color: @feature-keyword-text-color;
+  font-weight: bold;
+  margin-right: @spacing-small;
+  text-transform: capitalize;
+}
+.behave-feature-list-item.component .feature.item.title > i {
+  // background-color: red;
+  margin-right: 8px; //@spacing-tiny;
+  margin-top: -2px;
+  margin-left: -8px;
+  
+  &.dot {
+    font-size: @font-size - 8;
+    display: none;
+  }
+}
+.behave-feature-list-item.component ul {
+  padding-left: @spacing-large;
+}
+.behave-feature-list-item.component ul li {
+  // background-color: red;
+  list-style: none;
+}
+.behave-feature-list-item.component .header {
+  cursor: pointer;
+}
+.behave-feature-list-item.component .body {
+  // display: none !important;
+}
+
+.behave-feature-list-item.component.no-children > li > .header {
+  & i.show-more.bx-chevron-down {
+    display: none !important;
+  }
+  & i.show-more.bx-chevron-right {
+    display: none !important;
+  }
+}
+.behave-feature-list-item.component > li > .header {
+  & i.show-more.bx-chevron-down {
+    display: none;
+  }
+  & i.show-more.bx-chevron-right {
+    display: inline-block;
+  }
+}
+.behave-feature-list-item.component.show-children > li > .header {
+  & i.show-more.bx-chevron-down {
+    display: inline-block;
+  }
+  & i.show-more.bx-chevron-right {
+    display: none;
+  }
+}
+
+.behave-feature-list-item.component > li > .body {
+  display: none;
+}
+.behave-feature-list-item.component.show-children > li > .body {
+  display: block;
+}

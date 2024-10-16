@@ -6,6 +6,10 @@ import {
   getHtmlTemplate,
   setHtmlTemplate,
 } from '../behave-reporter-app/behave-reporter-app.dom.js';
+import { 
+  getSpecById,
+  getRunner,
+} from '../../service/index.js';
 
 export class BehaveReporter extends HTMLElement {
   static get observedAttributes() {
@@ -19,7 +23,7 @@ export class BehaveReporter extends HTMLElement {
   }
 
   connectedCallback() {
-    let dom, html, node, template;
+    let dom, html, node, runner, template;
 
     html = getHtmlTemplate ({ name: this.tagName });
     dom = this;
@@ -28,6 +32,10 @@ export class BehaveReporter extends HTMLElement {
     // Attached the reactive template
     template = document.createElement ('template');
     template.innerHTML = html;
+
+    runner = getRunner ();
+    // dom.component.data.runner = runner;
+    // console.log ('TRACE:', runner);
 
     node = bind (dom.component.data, [template, {
       'name': '[data-domo="bind: name"]',

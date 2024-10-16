@@ -12,15 +12,25 @@
     <ul class="ui tabs reports-tab">
       <li><button class="ui tab button feature">Features</button></li>
       <li><button class="ui tab button spec">Specs</button></li>
+      <li>
+        <input type="text" placeholder="filter..." class="ui text input"/>
+      </li>
     </ul>
     <div class="reports-tab-panels">
       <div class="ui tab panels reports-area feature">
-        <ul>
-          <li>Feature Item</li>
-          <li>Feature Item</li>
-          <li>Feature Item</li>
-          <li>Feature Item</li>
-        </ul>
+        <behave-feature-list data-id="1"></behave-feature-list>
+        <!--
+          <behave-feature-list></behave-feature-list>
+          <ul class="feature listing">
+            <behave-feature-list></behave-feature-list>
+            <behave-feature-list></behave-feature-list>
+            <behave-feature-list></behave-feature-list> 
+            <li>Feature Item</li>
+            <li>Feature Item</li>
+            <li>Feature Item</li>
+            <li>Feature Item</li>
+          </ul>
+        -->
       </div>
       <div class="ui tab panels reports-area spec hide">
         <ul>
