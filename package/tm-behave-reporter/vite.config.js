@@ -3,6 +3,9 @@ import { fileURLToPath } from 'url';
 
 // https://vite.dev/config/
 export default defineConfig({
+  build: {
+    outDir: fileURLToPath (new URL ('./public', import.meta.url)),
+  },
   publicDir: '../../../public',
   resolve: {
     alias: {

@@ -31,7 +31,13 @@ export class BehaveFeatureListItem extends HTMLElement {
     template.innerHTML = html;
 
     node = bind (dom.component.data, [template, {
-      'name': '[data-domo="bind: name"]',
+      'name': ['[data-domo="bind: name"]', function (element, value) {
+        value = value
+          .replace (/\$\{/g, '<span class="param">"')
+          .replace (/\}/g, '</span>"');
+        
+        element.innerHTML = value;
+      }],
       'keyword': '[data-domo="bind: keyword"]',
       'children': ['[data-domo="bind: children"]', function (element, value) {
         element.setAttribute ('data-id', value);        

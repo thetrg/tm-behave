@@ -74,7 +74,7 @@ export const SAMPLE_RUNNER_DATA = {
     "6": {
       "id": 6,
       "keyword": "when",
-      "name": "the search phrase \"panda\" is entered",
+      "name": 'the search phrase ${panda} is entered',
       "parent": 4,
       "stats": {
         "duration": 0,

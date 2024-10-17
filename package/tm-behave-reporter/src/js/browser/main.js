@@ -1,8 +1,12 @@
+import { startSocketClient } from './service/socket/index.js';
 import './component/index.js';
 import './index.less';
 
-function start () {
+async function start () {
   let dom, parent;
+  
+  await startSocketClient ();
+  
   parent = document.querySelector ('#app');
   if (parent) {
     dom = document.createElement ('behave-reporter-app');  
