@@ -5,6 +5,12 @@ import { fileURLToPath } from 'url';
 export default defineConfig({
   build: {
     outDir: fileURLToPath (new URL ('./public', import.meta.url)),
+    rollupOptions: {
+      output: {
+        entryFileNames: `assets/[name].js`,
+        assetFileNames: `assets/[name].[ext]`,
+      },
+    },
   },
   publicDir: '../../../public',
   resolve: {
