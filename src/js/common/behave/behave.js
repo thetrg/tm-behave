@@ -45,7 +45,7 @@ async function checkApiStatus (details = {}) {
     });
     console.log ('- coverage:', coverage);
 
-    reply = await fetch ('/api/kohi/reporter/coverage', {
+    reply = await fetch ('/api/behave/reporter/coverage', {
     // reply = await fetch ('/api/kohi/coverage/client', {
     // reply = await fetch ('http://localhost:8888/coverage/client', {
     // reply = await fetch ('/api/kohi/coverage/client', {

@@ -1,0 +1,5 @@
+html { 
+  border: 10px solid red;
+  box-sizing: border-box;
+  height: 100vh;
+}

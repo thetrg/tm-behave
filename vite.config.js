@@ -27,8 +27,9 @@ export default defineConfig((config) => ({
     host: true,
     port: 5000, 
     proxy: {
+      '/api/behave': 'http://localhost:5001',
       // '/api/kohi': 'http://localhost:8888',
-      '/api/kohi': 'http://localhost:5002',
+      // '/api/kohi': 'http://localhost:5002',
       // '/coverage': 'http://localhost:5002',
       // '/bob': 'http://localhost:9000',
     },
