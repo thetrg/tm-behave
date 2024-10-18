@@ -47,21 +47,22 @@ listen ({
       },
       url,
     } = details;
-    let hasSession, session;
+    let error, hasSession, session;
 
     try {
       console.log (`- [ACTION] Attempting to start an active session`);
+      
       hasSession = await checkIfActiveSession ();
-      if (!hasSession) {
-        session = await createSession ({ options });
-        await setSession ({ session });
+      if (hasSession) { throw new Error (`An existing session was found. Unable able to start a new session`) }
 
-        if (url) {
-          await send ({
-            path: 'thetrg/behave/autobot/driver/backend/session/navigation/go',
-            details: { url },
-          })
-        }
+      session = await createSession ({ options });
+      await setSession ({ session });
+
+      if (url) {
+        await send ({
+          path: 'thetrg/behave/autobot/driver/backend/session/navigation/go',
+          details: { url },
+        })
       }
     }
     catch (err) {
@@ -74,17 +75,28 @@ listen ({
 listen ({
   path: 'thetrg/behave/autobot/driver/backend/session/navigation/go',
   async run (details = {}) {
-    let { url } = details;
-    let session;
+    let { _extra, title, url } = details;
+    let { result } = _extra;
+    let hasSession, session;
 
     try {
       console.log (`- [ACTION] Navigating to the url: ${url}`);
+      
+      // Precondition checks
+      if (!url) { addError ({ error: 'A target url was not provided', result, throw: true }); }
+
+      hasSession = await checkIfActiveSession ();
+      if (!hasSession) { addError ({ error: 'A session was not found', result, throw: true }); }
+
+      // Run the code
       session = await getSession ();
       await navigateToUrl ({ session, url });
+
+      if (title) {
+      }
     }
     catch (err) {
-      console.error (`ERROR: Unable to navigate to the url: ${url}`);
-      console.error (err);
+      addError ({ error: `Unable to navigate to the url: ${url}`, log: true, result, trace: err });
     }
   },
 });

@@ -17,10 +17,20 @@ export async function setupSocketClient (details = {}) {
     path: 'ui/thetrg/behave/autobot/driver/action',
     run (details = {}) {
       let { details: nested, path } = details;
-      socket.emit ('thetrg/behave/autobot/driver/backend/action', { 
-        path,
-        details: nested,
-      });
+      return new Promise ((done, cancel) => {
+        try {
+          socket.emit ('thetrg/behave/autobot/driver/backend/action', { 
+            path,
+            details: nested,
+          }, (response) => {
+            console.log ('*** GOT BACK ***', response)
+            done ();
+          });
+        }
+        catch (err) {
+          cancel (err);
+        }
+      })
     },
   });  
 }

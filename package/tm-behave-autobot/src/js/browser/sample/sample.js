@@ -7,7 +7,7 @@ async function empty () {
 }
 
 const describe    = specs;
-const navigateTo  = empty;
+// const navigateTo  = empty;
 const writeTextTo = empty;
 const searchFor   = empty;
 
@@ -39,6 +39,33 @@ describe ([
     ],
   ],
 ]);
+
+// ---------------------------------------------------
+
+export async function navigateTo (details = {}) {
+  let { target, title } = details;
+  let result;
+  result = await sendCommand ({
+    path: 'thetrg/behave/autobot/driver/backend/session/navigation/go',
+    details: {
+      title,
+      url: target,
+    },
+  });
+  console.log ('- TRACE RESULT:', result);
+  // throw new Error (`Unable to navigate to: https://google.com`);
+  return result;
+}
+
+
+
+
+
+
+
+
+
+
 
 //specs ({
 //  'sample spec 1': {

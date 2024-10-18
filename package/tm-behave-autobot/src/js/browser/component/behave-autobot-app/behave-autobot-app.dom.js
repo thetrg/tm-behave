@@ -58,7 +58,7 @@ export class BehaveAutobotApp extends HTMLElement {
     
     setTimeout (() => {
       runTest ();
-    }, 500);
+    }, 100);
   }
 
   attributeChangedCallback(name, prev, value) {
