@@ -55,6 +55,10 @@ export class BehaveAutobotApp extends HTMLElement {
       console.error (`Unable to add listeners to ui`);
       console.error (err);
     }
+    
+    setTimeout (() => {
+      runTest ();
+    }, 500);
   }
 
   attributeChangedCallback(name, prev, value) {

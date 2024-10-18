@@ -19,7 +19,7 @@ export function addChildSpec (details = {}) {
 
 async function afterTests () {
   console.log ('- all done');
-  await checkApiStatus ();
+  // await checkApiStatus ();
   // await postCodeCoverage ();
 }
 
@@ -193,7 +193,7 @@ async function postCodeCoverage (details = {}) {
 
 export async function run () {
   let end, runner, start, time;
-
+  
   // Prepare the specs for running
   start = Date.now ();
   runner = getRunner ();
