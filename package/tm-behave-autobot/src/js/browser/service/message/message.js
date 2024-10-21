@@ -2,8 +2,8 @@ const shared = {
   router: null,
 }
 
-function addError (details = {}) {
-  let { error, log, result, trace, throw: throwError } = details;
+async function addError (details = {}) {
+  let { error, result, show,trace, throw: throwError } = details;
 
   if (error) {
     result.data.error.list.push (error);
@@ -11,13 +11,13 @@ function addError (details = {}) {
       throw new Error (error);
     }
   
-    if (log) {
-      console.error ('ERROR:', result.data.error.list.join ('\nERROR: '));
+    if (show) {
+      await log ({ message: 'ERROR: ' + result.data.error.list.join ('\nERROR: '), type: 'error' });
     }
   }
-  
+
   if (trace) {
-    console.error (trace);
+    await log ({ trace });
   }
 }
 
@@ -30,8 +30,9 @@ export function createRouter (details = {}) {
   }
 
   if (!globalThis.listen && !globalThis.send && !globalThis.sendCommand) {
-    globalThis.addError = addError;
+    globalThis.addError     = addError;
     globalThis.listen       = listen;
+    globalThis.log          = log;
     globalThis.send         = send;
     globalThis.sendCommand  = sendCommand;
   }
@@ -78,6 +79,17 @@ export function listen (details = {}) {
   }
 }
 
+export async function log (details = {}) {
+  let { list = [], message = '', type } = details;
+  
+  if (type === 'error') {
+    console.error.apply (console, [message].concat (list));
+  }
+  else {
+    console.log.apply (console, [message].concat (list));
+  }
+}
+
 async function createResult (details = {}) {
   let result;
   result = {
@@ -101,7 +113,7 @@ async function createResult (details = {}) {
 }
 
 export async function send (details = {}) {
-  let { details: nested, path } = details;
+  let { details: nested = {}, path } = details;
   let result, target;
   
   result = await createResult ();
@@ -109,6 +121,7 @@ export async function send (details = {}) {
   details.ensure = false;
   target = getPathHandler (details);
   if (target) {
+    nested._extra = { result }
     await runNext ({
       index: 0,
       list: target.list,

@@ -12,7 +12,7 @@ const writeTextTo = empty;
 const searchFor   = empty;
 
 export async function runTest () { 
-  console.log ('*****');
+  await log ({ message: '*****' });
   await run ();
 }
 
@@ -21,7 +21,8 @@ describe ([
     'as a web surfer, I want to search Google, so that I can learn new things.',
     'scenario: simple google search', [
       'given a web browser is on the Google page', async () => {
-         await navigateTo ({ target: 'https://www.google.com', title: 'Google' });
+        await openBrowser ();
+        await navigateTo ({ target: 'https://www.google.com', title: 'Google' });
       },
       'when the search phrase "panda" is entered', async () => { 
          await writeTextTo ({ target: 'textarea[title="Search"]', text: 'panda', submit: true });
@@ -52,8 +53,17 @@ export async function navigateTo (details = {}) {
       url: target,
     },
   });
-  console.log ('- TRACE RESULT:', result);
-  // throw new Error (`Unable to navigate to: https://google.com`);
+  await log ({ message: '- TRACE RESULT:', list: [result] });
+  return result;
+}
+
+export async function openBrowser (details = {}) {
+  let result;
+  result = await sendCommand ({
+    path: 'thetrg/behave/autobot/driver/backend/browser/open',
+    details,
+  });
+  await log ({ message: '- TRACE RESULT:', list: [result] });
   return result;
 }
 

@@ -2,14 +2,22 @@ import {
   getApp,
 } from '../autobot/index.js';
 
-export async function checkIfActiveSession (details = {}) {
-  let { app = await getApp () } = details;
+export async function getSession (details = {}) {
+  let { app = await getApp (), _extra, title, url } = details;
+  let { result } = _extra;
+  
   let session;
+  
   session = app.reference.session;
-  if (session) { return true; }
+  if (session) { 
+    return session; 
+  }
+
+  await addError ({ error: 'A session was not found', result, throw: details.throw });
   return false;
 }
 
+/*
 export async function getSession (details = {}) {
   let { app = await getApp () } = details;
   let session;
@@ -17,6 +25,7 @@ export async function getSession (details = {}) {
   // console.log ('- get session trace:', app.reference.session);
   return session;
 }
+*/
 
 export async function setSession (details = {}) {
   let { app = await getApp (), session } = details;

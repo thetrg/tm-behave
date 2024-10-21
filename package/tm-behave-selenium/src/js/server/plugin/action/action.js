@@ -2,13 +2,66 @@ import {
   getApp,
 } from '../autobot/index.js';
 import {
-  checkIfActiveSession,
   createSession,
   endSession,
   getSession,
   navigateToUrl,
   setSession,
+  getTitle,
 } from '../session/index.js';
+
+
+listen ({
+  path: 'thetrg/behave/autobot/driver/backend/session/navigation/go',
+  async run (details = {}) {
+    let { _extra, title, url } = details;
+    let { result } = _extra;
+    let session;
+
+    try {
+      await log ({ message: `- [ACTION] Navigating to the url: ${url}` });
+      
+      // Precondition checks
+      session = await getSession (details);
+      
+      if (!url) { await addError ({ error: 'A target url was not provided', result, throw: true }); }
+
+      // Run the code
+      await navigateToUrl ({ session, url });
+      if (title) {
+      }
+    }
+    catch (err) {
+      await addError ({ error: `Unable to navigate to the url: ${url}`, show: true, result, trace: err });
+    }
+  },
+});
+
+listen ({
+  path: 'thetrg/behave/autobot/driver/backend/session/page/title',
+  async run (details = {}) {
+    let { _extra, title } = details;
+    let { result } = _extra;
+    let session;
+
+    try {
+      await log ({ message: `- [ACTION] Get page title: ${url}` });
+      
+      // Precondition checks
+      session = await getSession (details);
+       
+      if (!title) { await addError ({ error: 'A page title to search for was not provided', result, throw: true }); }
+
+      // Run the code
+      await getTitle ({ session, title });
+    }
+    catch (err) {
+      await addError ({ error: `Unable to get the page title: ${title}`, show: true, result, trace: err });
+    }
+  },
+});
+
+// -----------------------------------------------------------------------
 
 listen ({
   path: 'thetrg/behave/autobot/driver/backend/session/end',
@@ -73,35 +126,6 @@ listen ({
 });
 
 listen ({
-  path: 'thetrg/behave/autobot/driver/backend/session/navigation/go',
-  async run (details = {}) {
-    let { _extra, title, url } = details;
-    let { result } = _extra;
-    let hasSession, session;
-
-    try {
-      console.log (`- [ACTION] Navigating to the url: ${url}`);
-      
-      // Precondition checks
-      if (!url) { addError ({ error: 'A target url was not provided', result, throw: true }); }
-
-      hasSession = await checkIfActiveSession ();
-      if (!hasSession) { addError ({ error: 'A session was not found', result, throw: true }); }
-
-      // Run the code
-      session = await getSession ();
-      await navigateToUrl ({ session, url });
-
-      if (title) {
-      }
-    }
-    catch (err) {
-      addError ({ error: `Unable to navigate to the url: ${url}`, log: true, result, trace: err });
-    }
-  },
-});
-
-listen ({
   path: 'thetrg/behave/autobot/driver/backend/session/tab/open',
   async run (details = {}) {
     let { url } = details;
@@ -119,3 +143,4 @@ listen ({
     }
   },
 });
+
