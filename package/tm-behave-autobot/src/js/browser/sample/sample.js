@@ -12,16 +12,18 @@ const writeTextTo = empty;
 const searchFor   = empty;
 
 export async function runTest () { 
+  await openBrowser ();
   await run ();
+  await closeBrowser ();
 }
 
 describe ([
   'feature: google searching', [
+    'setup', async () => {},
     'as a web surfer, I want to search Google, so that I can learn new things.',
     'scenario: simple google search', [
       'given a web browser is on the Google page', async () => {
-        await openBrowser ();
-        await navigateTo ({ target: 'https://www.google.com', title: 'Google' });
+        // await openTab ({ target: 'https://www.google.com', title: 'Google' });
       },
       'when the search phrase "panda" is entered', async () => { 
          await writeTextTo ({ target: 'textarea[title="Search"]', text: 'panda', submit: true });
@@ -37,10 +39,42 @@ describe ([
         });
       }
     ],
+    'breakdown', async () => {
+      await closeTab ();
+    },
   ],
 ]);
 
 // ---------------------------------------------------
+// api/0.1.0/thetrg/tm-behave/autobot/command
+
+export async function closeBrowser (details = {}) {
+  let result;
+  result = await send ({
+    path: 'api/0.1.0/thetrg/tm-behave/autobot/browser/_item/common/close',
+  });
+  return result;
+}
+
+export async function openBrowser (details = {}) {
+  let result;
+  result = await send ({
+    path: 'api/0.1.0/thetrg/tm-behave/autobot/browser/_item/common/open',
+  });
+  return result;
+}
+
+
+export async function closeTab (details = {}) {}
+
+
+export async function openTab (details = {}) {
+  let result;
+  result = await send ({
+    path: 'api/0.1.0/thetrg/tm-behave/autobot/browser/tab/_item/common/open',
+  });
+  return result;
+}
 
 export async function navigateTo (details = {}) {
   let { target, title } = details;
@@ -53,14 +87,6 @@ export async function navigateTo (details = {}) {
   //   },
   // });
   // await log ({ message: '- TRACE RESULT:', list: [result] });
-  return result;
-}
-
-export async function openBrowser (details = {}) {
-  let result;
-  result = await send ({
-    path: 'api/0.1.0/thetrg/tm-behave/autobot/browser/_item/common/logic/open',
-  });
   return result;
 }
 

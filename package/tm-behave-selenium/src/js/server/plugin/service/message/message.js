@@ -110,10 +110,13 @@ export async function send (details = {}) {
     else {
       result.data.status.code = 500;
       result.data.status.message = 'Internal Error';
+      await addResultError ({ _extra: { result }, error: `Something went wrong on: [${path}]`, show: true });
     }
   }
   else {
-    console.error (`Message send path not found: [${path}]`);
+    result.data.status.code = 404;
+    result.data.status.message = 'Not Found';
+    await addResultError ({ _extra: { result }, error: `Message send path not found: [${path}]`, show: true });
   }
   return result;
 }
@@ -195,6 +198,7 @@ async function createResult (details = {}) {
         list: [],
         tag: {},
       },
+      log: [],
     }
   }
   return result;

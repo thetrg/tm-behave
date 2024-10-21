@@ -111,10 +111,13 @@ export async function send (details = {}) {
     else {
       result.data.status.code = 500;
       result.data.status.message = 'Internal Error';
+      await addResultError ({ _extra: { result }, error: `Something went wrong on: [${path}]`, show: !true });
     }
   }
   else {
-    console.error (`Message send path not found: [${path}]`);
+    result.data.status.code = 404;
+    result.data.status.message = 'Not Found';
+    await addResultError ({ _extra: { result }, error: `Message send path not found: [${path}]`, show: true });
   }
   return result;
 }
@@ -147,12 +150,25 @@ export async function runNext (details = {}) {
 
 export async function sendCommand (details = {}) {
   let { first = true } = details;
-  let result;
+  let outcome, result;
   result = await send ({ 
     path: 'ui/thetrg/behave/autobot/driver/action',
     details,
-    first,
+    first: false,
   });
+  
+  if (result.data.status.code < 400) {
+    outcome = result.data.item.list [0];
+    if (outcome.data.status.code >= 400) {
+      console.log (outcome)
+      throw new Error (outcome.data.status.message);
+    }
+
+    if (first === true) {
+      result = result.data.item.list [0];
+    }
+  }
+
   return result;
 }
 
@@ -207,6 +223,7 @@ async function createResult (details = {}) {
         list: [],
         tag: {},
       },
+      log: [],
     }
   }
   return result;
