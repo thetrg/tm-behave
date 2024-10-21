@@ -34,22 +34,35 @@ export class BehaveAutobotApp extends HTMLElement {
     try {
       dom.querySelector ('.body .start-session').addEventListener ('click', () => {
         sendCommand ({
-          path: 'thetrg/behave/autobot/driver/backend/session/start',
-          details: {
-            url: 'https://csszengarden.com',
-            // url: 'https://blender.org',
-            // url: 'https://example.cypress.io',
-            options: {
-              headless: false,
-            },
-          },
+          path: 'api/0.1.0/thetrg/tm-behave/autobot/browser/_item/common/logic/open',
+          // path: 'api/0.1.0/thetrg/behave/autobot/browser/_item/server/logic/open',
+          // path: 'thetrg/behave/autobot/driver/backend/session/start',
+          // details: {
+          //   // url: 'https://csszengarden.com',
+          //   // url: 'https://blender.org',
+          //   // url: 'https://example.cypress.io',
+          //   options: {
+          //     headless: false,
+          //   },
+          // },
         });
+        // sendCommand ({
+        //   path: 'thetrg/behave/autobot/driver/backend/session/start',
+        //   details: {
+        //     url: 'https://csszengarden.com',
+        //     // url: 'https://blender.org',
+        //     // url: 'https://example.cypress.io',
+        //     options: {
+        //       headless: false,
+        //     },
+        //   },
+        // });
       });
-      dom.querySelector ('.body .end-session').addEventListener ('click', () => {
-        sendCommand ({
-          path: 'thetrg/behave/autobot/driver/backend/session/end',
-        });
-      });
+      // dom.querySelector ('.body .end-session').addEventListener ('click', () => {
+      //   sendCommand ({
+      //     path: 'thetrg/behave/autobot/driver/backend/session/end',
+      //   });
+      // });
     }
     catch (err) {
       console.error (`Unable to add listeners to ui`);

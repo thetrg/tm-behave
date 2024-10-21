@@ -8,7 +8,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "npx nodemon --exec \"clear && pnpm run start\" --watch src/js/server",
+    "dev": "npx nodemon --exec \"clear && pnpm run start\" --watch src/js/server --watch src/js/api",
     "ui": "vite",
     "start": "node src/js/server/start.js",
     "test": "echo \"Error: no test specified\" && exit 1"

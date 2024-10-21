@@ -12,7 +12,6 @@ const writeTextTo = empty;
 const searchFor   = empty;
 
 export async function runTest () { 
-  await log ({ message: '*****' });
   await run ();
 }
 
@@ -46,24 +45,22 @@ describe ([
 export async function navigateTo (details = {}) {
   let { target, title } = details;
   let result;
-  result = await sendCommand ({
-    path: 'thetrg/behave/autobot/driver/backend/session/navigation/go',
-    details: {
-      title,
-      url: target,
-    },
-  });
-  await log ({ message: '- TRACE RESULT:', list: [result] });
+  // result = await sendCommand ({
+  //   path: 'thetrg/behave/autobot/driver/backend/session/navigation/go',
+  //   details: {
+  //     title,
+  //     url: target,
+  //   },
+  // });
+  // await log ({ message: '- TRACE RESULT:', list: [result] });
   return result;
 }
 
 export async function openBrowser (details = {}) {
   let result;
-  result = await sendCommand ({
-    path: 'thetrg/behave/autobot/driver/backend/browser/open',
-    details,
+  result = await send ({
+    path: 'api/0.1.0/thetrg/tm-behave/autobot/browser/_item/common/logic/open',
   });
-  await log ({ message: '- TRACE RESULT:', list: [result] });
   return result;
 }
 

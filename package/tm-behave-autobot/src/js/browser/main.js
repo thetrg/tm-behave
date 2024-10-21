@@ -1,5 +1,6 @@
 import { setupSocketClient } from './service/index.js';
 import './component/index.js';
+import '../api/index.js';
 
 export async function start () {
   let dom, parent;

@@ -2,25 +2,6 @@ const shared = {
   router: null,
 }
 
-async function addError (details = {}) {
-  let { error, result, show,trace, throw: throwError } = details;
-
-  if (error) {
-    result.data.error.list.push (error);
-    if (throwError) {
-      throw new Error (error);
-    }
-  
-    if (show) {
-      await log ({ message: 'ERROR: ' + result.data.error.list.join ('\nERROR: '), type: 'error' });
-    }
-  }
-
-  if (trace) {
-    await log ({ trace });
-  }
-}
-
 export function createRouter (details = {}) {
   let router;
   router = {
@@ -30,10 +11,11 @@ export function createRouter (details = {}) {
   }
 
   if (!globalThis.send && !globalThis.listen) {
-    globalThis.addError = addError;
-    globalThis.send = send;
-    globalThis.listen = listen;
-    globalThis.log = log;
+    globalThis.addResultItem  = addResultItem;
+    globalThis.addResultError = addResultError;
+    globalThis.send           = send;
+    globalThis.listen         = listen;
+    globalThis.log            = log;
   }
 
   return router;
@@ -79,40 +61,29 @@ export function listen (details = {}) {
 }
 
 export async function log (details = {}) {
-  let { list = [], message = '', type } = details;
+  let { list = [], message = '', prefix = '', trace, type } = details;
   
+  if (prefix) {
+    message = prefix + message;
+    list.forEach ((item, index) => {
+      list [index] = prefix + item;
+    });
+  }
+
   if (type === 'error') {
     console.error.apply (console, [message].concat (list));
   }
-  else {
+  else if (message) {
     console.log.apply (console, [message].concat (list));
   }
-}
 
-async function createResult (details = {}) {
-  let result;
-  result = {
-    data: {
-      status: {
-        code: 204,
-        message: 'No Content',
-      },
-      error: {
-        list: [],
-        tag: {},
-      },
-      item: {
-        first: null,
-        list: [],
-        tag: {},
-      },
-    }
+  if (trace) {
+    console.error (trace);
   }
-  return result;
 }
 
 export async function send (details = {}) {
-  let { details: nested = {}, path } = details;
+  let { details: nested = {}, first = true, path } = details;
   let result, target;
   
   result = await createResult ();
@@ -131,6 +102,10 @@ export async function send (details = {}) {
     if (result.data.error.list.length === 0) {
       result.data.status.code = 200;
       result.data.status.message = 'Ok';
+
+      if (first === true) {
+        result = result.data.item.list [0];
+      }
     }
     else {
       result.data.status.code = 500;
@@ -167,6 +142,62 @@ export async function runNext (details = {}) {
     await runNext (details);
   }
   return details;
+}
+
+
+// ----------------------------------------------------
+// Result
+async function addResultError (details = {}) {
+  let { _extra = {}, error, show,trace, throw: throwError } = details;
+  let { result } = _extra;
+
+  if (error) {
+    if (result) {
+      result.data.error.list.push (error);
+      
+      if (show) {
+        await log ({ message: 'ERROR: ' + result.data.error.list.join ('\nERROR: '), type: 'error' });
+      }
+    }
+
+    if (throwError) {
+      throw new Error (error);
+    }
+  }
+
+  if (trace) {
+    await log ({ trace });
+  }
+}
+
+async function addResultItem (details = {}) {
+  let { _extra, item } = details;
+  let { result } = _extra;
+
+  if (item !== undefined) {
+    result.data.item.list.push (item);
+  }
+}
+
+async function createResult (details = {}) {
+  let result;
+  result = {
+    data: {
+      status: {
+        code: 204,
+        message: 'No Content',
+      },
+      error: {
+        list: [],
+        tag: {},
+      },
+      item: {
+        list: [],
+        tag: {},
+      },
+    }
+  }
+  return result;
 }
 
 // ----------------------------------------------------

@@ -7,7 +7,8 @@
   Template for the actions
 */
 listen ({
-  path: 'backend/thetrg/behave/autobot/browser/open',
+  path: 'api/0.1.0/thetrg/behave/autobot/browser/_item/server/logic/open',
+  // path: 'thetrg/behave/autobot/browser/_item/server/logic/open',
   async run (details = {}) {  
     let { _extra, title } = details;
     let { result } = _extra;
@@ -45,3 +46,5 @@ listen ({
 //  path: '~/backend/thetrg/behave/autobot/browser/create',
 //  path: 'frontend/thetrg/behave/autobot/browser/create',
 */
+
+// ----------------------------------------------------

@@ -23,8 +23,7 @@ export async function setupSocketClient (details = {}) {
             path,
             details: nested,
           }, (response) => {
-            console.log ('*** GOT BACK ***', response)
-            done ();
+            done (response);
           });
         }
         catch (err) {
