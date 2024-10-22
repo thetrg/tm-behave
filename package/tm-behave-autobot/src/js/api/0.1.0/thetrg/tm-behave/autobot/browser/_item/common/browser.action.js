@@ -20,11 +20,11 @@ listen ({
       
       // -----------------------------------------
       // Run the code
-      result = await sendCommand ({
+      result = await getItemFromForwardResult ({
         path: 'api/0.1.0/thetrg/tm-behave/autobot/browser/_item/server/logic/open',
         details: { browser },
       });
-
+      
       browser = await setBrowser ({
         browser: result,
       });
@@ -38,7 +38,6 @@ listen ({
     }
   },
 });
-
 
 listen ({
   path: 'api/0.1.0/thetrg/tm-behave/autobot/browser/_item/common/close',

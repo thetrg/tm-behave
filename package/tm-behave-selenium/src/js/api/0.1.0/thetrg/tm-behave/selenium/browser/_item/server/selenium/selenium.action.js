@@ -41,7 +41,7 @@ listen ({
 });
 
 listen ({
-  path: 'api/0.1.0/thetrg/tm-behave/autobot/browser/_item/server/logic/open',
+  path: 'api/0.1.0/thetrg/tm-behave/autobot/browser/_item/server/logic/close',
   async run (details = {}) {  
     let { _extra } = details;
     let action;

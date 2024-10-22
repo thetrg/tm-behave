@@ -13,8 +13,8 @@ const searchFor   = empty;
 
 export async function runTest () { 
   await openBrowser ();
-  await run ();
-  await closeBrowser ();
+//  await run ();
+//  await closeBrowser ();
 }
 
 describe ([
@@ -64,9 +64,7 @@ export async function openBrowser (details = {}) {
   return result;
 }
 
-
 export async function closeTab (details = {}) {}
-
 
 export async function openTab (details = {}) {
   let result;

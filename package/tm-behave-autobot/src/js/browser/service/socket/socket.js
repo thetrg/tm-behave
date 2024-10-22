@@ -8,18 +8,18 @@ export async function setupSocketClient (details = {}) {
   socket = io (url);
 
   socket.on ('hello', (arg) => {
-    console.log (arg);
+    // console.log (arg);
   });
   socket.emit ('howdy', 'stranger');
   console.log ('- socket setup', Date.now ());
 
   listen ({
-    path: 'ui/thetrg/behave/autobot/driver/action',
+    path: 'api/0.1.0/graceful/message/_item/common/forward',
     run (details = {}) {
       let { details: nested, path } = details;
       return new Promise ((done, cancel) => {
         try {
-          socket.emit ('thetrg/behave/autobot/driver/backend/action', { 
+          socket.emit ('api/0.1.0/graceful/message/_item/common/forward', { 
             path,
             details: nested,
           }, (response) => {

@@ -36,16 +36,17 @@ async function addClientListeners (details = {}) {
   let socket;
 
   socket = await getClientWebSocket (details);
-  // socket.on ('*', (arg) => {
-  //   console.log ('HERE:', arg);
-  // });
+//   socket.on ('*', (arg) => {
+//     console.log ('HERE:', arg);
+//   });
   socket.on ('howdy', (arg) => {
     console.log (arg);
   });
-  socket.on ('thetrg/behave/autobot/driver/backend/action', async (details, callback) => {
+  socket.on ('api/0.1.0/graceful/message/_item/common/forward', async (details, callback) => {
     let result;
     result = await send (details);
     callback (result);
+    console.log ('*** TODO: Add socket.io error when event does not have a handler.');
   });
 }
 

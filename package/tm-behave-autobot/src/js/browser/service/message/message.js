@@ -13,10 +13,14 @@ export function createRouter (details = {}) {
   if (!globalThis.listen && !globalThis.send && !globalThis.sendCommand) {
     globalThis.addResultItem  = addResultItem;
     globalThis.addResultError = addResultError;
+    
+    globalThis.getItemFromForwardResult = getItemFromForwardResult;
+    globalThis.getItemFromSendResult    = getItemFromSendResult;
+    
     globalThis.listen         = listen;
     globalThis.log            = log;
     globalThis.send           = send;
-    globalThis.sendCommand    = sendCommand;
+    globalThis.forward        = forward;
   }
 
   return router;
@@ -62,20 +66,24 @@ export function listen (details = {}) {
 }
 
 export async function log (details = {}) {
-  let { list = [], message = '', prefix = '', trace, type } = details;
+  let { list = [], message, prefix, trace, type } = details;
   
-  if (prefix) {
+  if (prefix !== undefined) {
     message = prefix + message;
     list.forEach ((item, index) => {
       list [index] = prefix + item;
     });
   }
+  
+  if (message !== undefined) {
+    list = [message].concat (list);
+  }
 
   if (type === 'error') {
-    console.error.apply (console, [message].concat (list));
+    console.error.apply (console, list);
   }
   else if (message) {
-    console.log.apply (console, [message].concat (list));
+    console.log.apply (console, list);
   }
 
   if (trace) {
@@ -84,7 +92,7 @@ export async function log (details = {}) {
 }
 
 export async function send (details = {}) {
-  let { details: nested = {}, first = true, path } = details;
+  let { details: nested = {}, first = false, path } = details;
   let result, target;
   
   result = await createResult ();
@@ -148,30 +156,6 @@ export async function runNext (details = {}) {
   return details;
 }
 
-export async function sendCommand (details = {}) {
-  let { first = true } = details;
-  let outcome, result;
-  result = await send ({ 
-    path: 'ui/thetrg/behave/autobot/driver/action',
-    details,
-    first: false,
-  });
-  
-  if (result.data.status.code < 400) {
-    outcome = result.data.item.list [0];
-    if (outcome.data.status.code >= 400) {
-      console.log (outcome)
-      throw new Error (outcome.data.status.message);
-    }
-
-    if (first === true) {
-      result = result.data.item.list [0];
-    }
-  }
-
-  return result;
-}
-
 // ----------------------------------------------------
 // Result
 
@@ -229,6 +213,28 @@ async function createResult (details = {}) {
   return result;
 }
 
+export async function getItemFromSendResult (details = {}) {
+  let outcome, result;
+  
+  result = await forward (details);
+  // console.log (JSON.stringify (result, null, 2));
+  
+  if (result.data.status.code < 400) {
+    outcome = result.data.item.list [0];
+    // console.log (JSON.stringify (outcome, null, 2));
+  }
+  else {
+    // console.log (result);
+    log ({ 
+      message: 'ERROR: ' + result.data.error.list.join ('\nERROR: '), 
+      type: 'error',
+    });
+    throw new Error (result.data.status.message);
+  }
+  
+  return outcome;
+}
+
 // ----------------------------------------------------
 // Add some listener
 
@@ -243,3 +249,48 @@ listen ({
     send ({ path: 'behave/autobot/driver/bob' });
   },
 })
+
+// ----------------------------------------------------
+// Forward Message
+
+export async function getItemFromForwardResult (details = {}) {
+  let nested, outcome, result;
+  
+  result = await forward (details);
+  nested = result.data.item.list [0];
+  // console.log (JSON.stringify (result, null, 2));
+  
+  if (nested.data.status.code < 400) {
+    outcome = nested.data.item.list [0];
+    // console.log (JSON.stringify (outcome, null, 2));
+  }
+  else {
+    // console.log (nested);
+    log ({ 
+      message: 'ERROR: ' + nested.data.error.list.join ('\nERROR: '), 
+      type: 'error',
+    });
+    throw new Error ([
+      nested.data.status.code,
+      nested.data.status.message,
+    ].join (' '));
+  }
+  
+  return outcome;
+}
+
+export async function forward (details = {}) {
+  let result;
+  
+  result = await send ({ 
+    path: 'api/0.1.0/graceful/message/_item/common/forward',
+    details,
+    stack: true,
+  });
+  
+  if (result.data.status.code >= 400) {
+    throw new Error (result.data.status.message);
+  }
+
+  return result;
+}
