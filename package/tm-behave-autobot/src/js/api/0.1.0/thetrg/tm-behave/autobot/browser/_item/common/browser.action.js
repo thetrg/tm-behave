@@ -34,7 +34,7 @@ listen ({
       browser = await setBrowser ({
         browser: result,
       });
-      await log ({ _extra, message: 'BROWSER:', list: [browser.asJson ()] });
+      await log ({ _extra, message: 'BROWSER: ' + browser.asJson () });
 
       // -----------------------------------------
       // Post condition checks
@@ -69,7 +69,8 @@ listen ({
       // browser = await setBrowser ({
       //   browser: result,
       // });
-      //await log ({ _extra, message: 'BROWSER:', list: [browser.asJson ()] });
+      // console.log (browser);
+      // await log ({ _extra, message: 'BROWSER:', list: [browser.asJson ()] });
 
       // -----------------------------------------
       // Post condition checks

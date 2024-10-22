@@ -10,7 +10,6 @@ import {
   getTitle,
 } from '../session/index.js';
 
-
 listen ({
   path: 'thetrg/behave/autobot/driver/backend/session/navigation/go',
   async run (details = {}) {

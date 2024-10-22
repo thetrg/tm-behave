@@ -31,6 +31,7 @@ listen ({
       // -----------------------------------------
       // Run the code
       browser = await getBrowser (details);
+      await log ({ _extra, message: 'BROWSER: ' + browser.asJson () });
       // console.log (browser);
       
       // -----------------------------------------

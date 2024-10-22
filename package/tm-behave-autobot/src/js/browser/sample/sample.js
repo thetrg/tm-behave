@@ -52,14 +52,8 @@ describe ([
 // ---------------------------------------------------
 // api/0.1.0/thetrg/tm-behave/autobot/command
 
-export async function closeBrowser (details = {}) {
-  let result;
-  result = await send ({
-    path: 'api/0.1.0/thetrg/tm-behave/autobot/browser/_item/common/close',
-  });
-  return result;
-}
-
+// ---------------------------------------------------
+// Browser
 export async function openBrowser (details = {}) {
   let result;
   result = await send ({
@@ -69,6 +63,16 @@ export async function openBrowser (details = {}) {
   return result;
 }
 
+export async function closeBrowser (details = {}) {
+  let result;
+  result = await send ({
+    path: 'api/0.1.0/thetrg/tm-behave/autobot/browser/_item/common/close',
+  });
+  return result;
+}
+
+// ---------------------------------------------------
+// Tab
 export async function closeTab (details = {}) {}
 
 export async function openTab (details = {}) {
