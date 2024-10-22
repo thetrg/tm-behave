@@ -5,6 +5,12 @@ import {
   closeBrowser,
   openBrowser,
 } from './selenium.js';
+import {
+  addResultError,
+  addResultItem,
+  listen,
+  log,
+} from '@thetrg/tm-message';
 
 const LOG_PREFIX = '[ACTION] Selenium Browser - ';
 
@@ -17,7 +23,7 @@ listen ({
     try {
       action = 'open a browser';
       await log ({ _extra, message: action, prefix: LOG_PREFIX });
-
+      
       // -----------------------------------------
       // Pre condition checks
       let browser;
@@ -25,7 +31,7 @@ listen ({
       // -----------------------------------------
       // Run the code
       browser = await getBrowser (details);
-      console.log (browser);
+      // console.log (browser);
       
       // -----------------------------------------
       // Post condition checks

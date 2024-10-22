@@ -1,0 +1,13 @@
+{
+  "name": "@thetrg/tm-message",
+  "version": "0.1.0",
+  "description": "An event and action handling system",
+  "main": "index.js",
+  "keywords": [],
+  "author": "The TRG, LLC",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

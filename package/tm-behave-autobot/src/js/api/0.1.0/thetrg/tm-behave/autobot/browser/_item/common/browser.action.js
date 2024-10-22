@@ -1,6 +1,12 @@
 import {
   setBrowser,
 } from './browser.js';
+import {
+  addResultError,
+  getItemFromForwardResult,
+  listen,
+  log,
+} from '@thetrg/tm-message';
 
 const LOG_PREFIX = '[ACTION] Browser - ';
 

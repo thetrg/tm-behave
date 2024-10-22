@@ -1,3 +1,7 @@
+import {
+  send,
+  showResultLog,
+} from '@thetrg/tm-message';
 import { run, specs } from '@thetrg/tm-behave';
 
 const DELAY = 100;
@@ -61,6 +65,7 @@ export async function openBrowser (details = {}) {
   result = await send ({
     path: 'api/0.1.0/thetrg/tm-behave/autobot/browser/_item/common/open',
   });
+  await showResultLog ({ result });
   return result;
 }
 

@@ -1,3 +1,7 @@
+import {
+  send,
+  showResultLog,
+} from '@thetrg/tm-message';
 import { Server } from 'socket.io';
 
 export async function startSocketServer (details = {}) {
@@ -16,7 +20,7 @@ function createWebSocketConnectionHandler (details = {}) {
     let client;
     client = await createClient ({ socket });
     await addClientListeners ({ client });
-    socket.emit ('hello', 'world');
+    // socket.emit ('hello', 'world');
   }
 }
 
@@ -36,17 +40,18 @@ async function addClientListeners (details = {}) {
   let socket;
 
   socket = await getClientWebSocket (details);
-//   socket.on ('*', (arg) => {
-//     console.log ('HERE:', arg);
-//   });
-  socket.on ('howdy', (arg) => {
-    console.log (arg);
-  });
-  socket.on ('api/0.1.0/graceful/message/_item/common/forward', async (details, callback) => {
+  // socket.on ('*', (arg) => {
+  //   console.log ('HERE:', arg);
+  // });
+  // socket.on ('howdy', (arg) => {
+  //   // console.log (arg);
+  // });
+  socket.on ('api/0.1.0/tm/message/socket/action/_item/common/forward', async (details, callback) => {
+    // console.log (arg);
     let result;
     result = await send (details);
+    await showResultLog ({ result, show: { section: true } });
     callback (result);
-    console.log ('*** TODO: Add socket.io error when event does not have a handler.');
   });
 }
 

@@ -10,19 +10,6 @@ export function createRouter (details = {}) {
     },
   }
 
-  if (!globalThis.listen && !globalThis.send && !globalThis.sendCommand) {
-    globalThis.addResultItem  = addResultItem;
-    globalThis.addResultError = addResultError;
-    
-    globalThis.getItemFromForwardResult = getItemFromForwardResult;
-    globalThis.getItemFromSendResult    = getItemFromSendResult;
-    
-    globalThis.listen         = listen;
-    globalThis.log            = log;
-    globalThis.send           = send;
-    globalThis.forward        = forward;
-  }
-
   return router;
 }
 
@@ -66,8 +53,9 @@ export function listen (details = {}) {
 }
 
 export async function log (details = {}) {
-  let { list = [], message, prefix, trace, type } = details;
-  
+  let { _extra = {}, list = [], message, prefix, trace, type = 'normal' } = details;
+  let { result } = _extra;
+
   if (prefix !== undefined) {
     message = prefix + message;
     list.forEach ((item, index) => {
@@ -79,15 +67,74 @@ export async function log (details = {}) {
     list = [message].concat (list);
   }
 
-  if (type === 'error') {
-    console.error.apply (console, list);
+  if (result) {
+    let file, index, line, parts, stack;
+    try {
+      throw new Error ('line');
+    }
+    catch (err) {
+      stack = err.stack;
+      file = stack.split ('\n');
+      file = file [2];
+      index = file.lastIndexOf ('/') + 1;
+      line = file.substring (index);
+
+      parts = line.split (':');
+      line = parts [0];
+      index = line.lastIndexOf ('?');
+      if (index > -1) {
+        line = line.substring (0, index);
+      }
+
+      line = line + ' (' + parts [1] + ':' + parts [2];
+      // console.log (file, index, line, parts);
+    }
+
+    list.forEach ((item) => {
+      let entry;
+      entry = { line, message, type, temp: { stack } };
+      result.data.log.push (entry);
+    });
   }
-  else if (message) {
-    console.log.apply (console, list);
+  else {
+    if (type === 'error') {
+      console.error.apply (console, list);
+    }
+    else if (message) {
+      console.log.apply (console, list);
+    }
+  
+    if (trace) {
+      console.error (trace);
+    }
+  }
+}
+
+export async function showLog (details = {}) {
+  let { log = [], show = {} } = details;
+  let { lines = true, section = false } = show;
+
+  if (section === true) {
+    console.log ('');
+    console.log ('---------------------------------');
   }
 
-  if (trace) {
-    console.error (trace);
+  log.forEach ((entry) => {
+    let { line, message, stack } = entry;
+
+    if (lines === true) {
+      console.log ([line, message].join (' '));
+    }
+    else {
+      console.log ([message].join (' '));
+    }
+  });
+}
+
+export async function showResultLog (details = {}) {
+  let { result, show } = details;
+  if (result) {
+    await showLog ({ log: result.data.log, show });
   }
 }
 
@@ -159,7 +206,7 @@ export async function runNext (details = {}) {
 // ----------------------------------------------------
 // Result
 
-async function addResultError (details = {}) {
+export async function addResultError (details = {}) {
   let { _extra = {}, error, show,trace, throw: throwError } = details;
   let { result } = _extra;
 
@@ -182,7 +229,7 @@ async function addResultError (details = {}) {
   }
 }
 
-async function addResultItem (details = {}) {
+export async function addResultItem (details = {}) {
   let { _extra, item } = details;
   let { result } = _extra;
 
@@ -191,7 +238,7 @@ async function addResultItem (details = {}) {
   }
 }
 
-async function createResult (details = {}) {
+export async function createResult (details = {}) {
   let result;
   result = {
     data: {
@@ -225,6 +272,10 @@ export async function getItemFromSendResult (details = {}) {
   }
   else {
     // console.log (result);
+    log ({ 
+      message: 'ERROR: ' + result.data.error.list.join ('\nERROR: '), 
+      type: 'error',
+    });
     throw new Error (result.data.status.message);
   }
   
@@ -261,7 +312,7 @@ export async function getItemFromForwardResult (details = {}) {
     // console.log (JSON.stringify (outcome, null, 2));
   }
   else {
-    console.log (nested);
+    // console.log (nested);
     log ({ 
       message: 'ERROR: ' + nested.data.error.list.join ('\nERROR: '), 
       type: 'error',
@@ -279,7 +330,7 @@ export async function forward (details = {}) {
   let result;
   
   result = await send ({ 
-    path: 'api/0.1.0/graceful/message/_item/common/forward',
+    path: 'api/0.1.0/tm/message/socket/action/_item/common/forward',
     details,
     stack: true,
   });
