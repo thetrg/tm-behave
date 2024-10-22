@@ -13,8 +13,7 @@ export function toJson () {
 }
 
 export async function createItem (details = {}) {
-  let { browser = {} } = details;
-  let { data = {}, info = { guid: Date.now () } } = browser;
+  let { data = {}, info = { guid: Date.now () } } = details;
   let item;
 
   item = {
@@ -38,6 +37,8 @@ export async function createItem (details = {}) {
 }
 
 // ------------------------------------------------
+// Browser
+import merge from 'deepmerge';
 const shared = {
   browser: null,
 }
@@ -47,8 +48,15 @@ export async function createBrowser (details = {}) {
   let { data = {} } = browser;
   let item;
 
-  if (data.name === undefined) { data.name = 'un-known browser name'; }
-  item = await createItem (details);
+  browser.data = merge ({
+    name: 'un-named browser',
+    options: {
+      headless: { active: true, value: '--headless' },
+    },
+    running: false,
+  }, data);
+
+  item = await createItem (browser);
   return item;
 }
 

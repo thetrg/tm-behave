@@ -28,13 +28,26 @@ listen ({
       // Run the code
       result = await getItemFromForwardResult ({
         path: 'api/0.1.0/thetrg/tm-behave/autobot/browser/_item/server/logic/open',
-        details: { browser },
+        details: { 
+          browser: {
+            data: {
+              options: {
+                headless: { active: false, value: '--headless' },
+              }
+            }
+          }
+        },
       });
       
       browser = await setBrowser ({
         browser: result,
       });
       await log ({ _extra, message: 'BROWSER: ' + browser.asJson () });
+
+      setTimeout (async () => {
+        console.log ('NOTE: closing down the browser');
+        await getItemFromForwardResult ({ path: 'api/0.1.0/thetrg/tm-behave/autobot/browser/_item/server/logic/close' });
+      }, (1000 * 1));
 
       // -----------------------------------------
       // Post condition checks
@@ -56,15 +69,15 @@ listen ({
       await log ({ _extra, message: action, prefix: LOG_PREFIX });
       
       // -----------------------------------------
-      // Pre condition checks
+      // Pre condi-tion checks
       let browser, result;
       
-      // -----------------------------------------
-      // Run the code
-      result = await sendCommand ({
-        path: 'api/0.1.0/thetrg/tm-behave/autobot/browser/_item/server/logic/close',
-        details: { browser },
-      });
+      // // -----------------------------------------
+      // // Run the code
+      // result = await sendCommand ({
+      //   path: 'api/0.1.0/thetrg/tm-behave/autobot/browser/_item/server/logic/close',
+      //   details: { browser },
+      // });
 
       // browser = await setBrowser ({
       //   browser: result,

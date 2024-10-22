@@ -14,6 +14,7 @@
   "dependencies": {
     "@fontsource-variable/nunito": "^5.1.0",
     "boxicons": "^2.1.4",
+    "deepmerge": "^4.3.1",
     "less": "^4.2.0",
     "mitt": "^3.0.1",
     "modern-normalize": "^3.0.1",

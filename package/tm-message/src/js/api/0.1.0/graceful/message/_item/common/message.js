@@ -52,9 +52,48 @@ export function listen (details = {}) {
   }
 }
 
+export async function getLogLineInfo (details = {}) {
+  let file, index, line, parts, result, stack;
+  
+  result = {
+    text: '',
+  }
+
+  try {
+    throw new Error ('line');
+  }
+  catch (err) {
+    stack = err.stack;
+    file = stack.split ('\n');
+    console.log (file);
+    file = file [5];
+    index = file.lastIndexOf ('/') + 1;
+    line = file.substring (index);
+
+    parts = line.split (':');
+    line = parts [0];
+    index = line.lastIndexOf ('?');
+    if (index > -1) {
+      line = line.substring (0, index);
+    }
+
+    result.file = line;
+    result.row = parts [1];
+    result.column = parts [2].replace (')', '');
+
+    result.text = ['[', result.file, ' ', result.row, ':', result.column, ']'].join ('');
+
+    // line = line + ' (' + parts [1] + ':' + parts [2];
+    // console.log ('- line:', result);
+    // console.log (file, index, line, parts);
+  }
+  return result;
+}
+
 export async function log (details = {}) {
   let { _extra = {}, list = [], message, prefix, trace, type = 'normal' } = details;
   let { result } = _extra;
+  let line;
 
   if (prefix !== undefined) {
     message = prefix + message;
@@ -68,31 +107,10 @@ export async function log (details = {}) {
   }
 
   if (result) {
-    let file, index, line, parts, stack;
-    try {
-      throw new Error ('line');
-    }
-    catch (err) {
-      stack = err.stack;
-      file = stack.split ('\n');
-      file = file [2];
-      index = file.lastIndexOf ('/') + 1;
-      line = file.substring (index);
-
-      parts = line.split (':');
-      line = parts [0];
-      index = line.lastIndexOf ('?');
-      if (index > -1) {
-        line = line.substring (0, index);
-      }
-
-      line = line + ' (' + parts [1] + ':' + parts [2];
-      // console.log (file, index, line, parts);
-    }
-
+    line = await getLogLineInfo ();
     list.forEach ((item) => {
       let entry;
-      entry = { line, message, type, temp: { stack } };
+      entry = { message, type, temp: { line } };
       result.data.log.push (entry);
     });
   }
@@ -120,10 +138,11 @@ export async function showLog (details = {}) {
   }
 
   log.forEach ((entry) => {
-    let { line, message, stack } = entry;
+    let { message, temp } = entry;
+    let { line } = temp;
 
     if (lines === true) {
-      console.log ([line, message].join (' '));
+      console.log ([line.text, message].join (' '));
     }
     else {
       console.log ([message].join (' '));
@@ -207,26 +226,24 @@ export async function runNext (details = {}) {
 // Result
 
 export async function addResultError (details = {}) {
-  let { _extra = {}, error, show,trace, throw: throwError } = details;
+  let { _extra = {}, error, show, trace, throw: throwError } = details;
   let { result } = _extra;
 
   if (error) {
     if (result) {
-      result.data.error.list.push (error);
-      
-      if (show) {
-        await log ({ message: 'ERROR: ' + result.data.error.list.join ('\nERROR: '), type: 'error' });
-      }
+      result.data.error.list.push (error);  
     }
+
+    await log ({ _extra, message: error, type: 'error' });
 
     if (throwError) {
       throw new Error (error);
     }
   }
 
-  if (trace) {
-    await log ({ trace });
-  }
+  // if (trace) {
+  //   await log ({ trace });
+  // }
 }
 
 export async function addResultItem (details = {}) {
