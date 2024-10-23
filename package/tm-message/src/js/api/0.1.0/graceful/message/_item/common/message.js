@@ -245,18 +245,18 @@ export async function runNext (details = {}) {
 // Result
 
 export async function addResultError (details = {}) {
-  let { _extra = {}, error, show, trace, throw: throwError } = details;
+  let { _extra = {}, message, show, trace, throw: throwError } = details;
   let { result } = _extra;
 
-  if (error) {
+  if (message) {
     if (result) {
-      result.data.error.list.push (error);  
+      result.data.error.list.push (message);  
     }
 
-    await log ({ _extra, message: error, type: 'error' });
+    await log ({ _extra, message, type: 'error' });
 
     if (throwError) {
-      throw new Error (error);
+      throw new Error (message);
     }
   }
 }

@@ -48,7 +48,7 @@ listen ({
       });
     }
     catch (err) {
-      await addResultError ({ _extra, error: `Unable to ${action}`, prefix: LOG_PREFIX, trace: err });
+      await addResultError ({ _extra, message: `Unable to ${action}`, prefix: LOG_PREFIX, trace: err });
     }
   },
 });
@@ -87,7 +87,7 @@ listen ({
       });
     }
     catch (err) {
-      await addResultError ({ _extra, error: `Unable to ${action}`, prefix: LOG_PREFIX, trace: err });
+      await addResultError ({ _extra, message: `Unable to ${action}`, prefix: LOG_PREFIX, trace: err });
     }
   },
 });
