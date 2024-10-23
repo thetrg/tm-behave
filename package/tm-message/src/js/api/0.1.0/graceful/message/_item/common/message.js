@@ -66,10 +66,6 @@ export async function findLogFileName (details = {}) {
       item.indexOf ('/_item/common/message.js') === -1
       && item.indexOf ('node:internal/process/task_queues') === -1
     ) {
-      
-      if (item.indexOf ('socket.js') > -1) {         
-        console.log ('LAME:', details.stack);
-      }
       return item;
     }
   }
@@ -119,46 +115,35 @@ export async function log (details = {}) {
   let { _extra = {}, list = [], message, prefix, trace, type = 'normal' } = details;
   let { result } = _extra;
   let line;
-
+  
+  if (message !== undefined) {
+    list = [message].concat (list);
+  }
+  
   if (prefix !== undefined) {
     message = prefix + message;
     list.forEach ((item, index) => {
       list [index] = prefix + item;
     });
   }
-  
-  if (message !== undefined) {
-    list = [message].concat (list);
-  }
 
-  if (result) {
-    line = await getLogLineInfo ();
-    list.forEach ((item) => {
-      let entry;
-      entry = { 
-        data: {
-          message, 
-          type, 
-        },
-        temp: { 
-          line, 
-        }, 
-      };
+  line = await getLogLineInfo ();
+  list.forEach ((item) => {
+    let entry;
+    entry = {
+      data: {
+        message: item, 
+        type, 
+      },
+      temp: { 
+        line, 
+      }, 
+    };
+    
+    if (result) {
       result.data.log.push (entry);
-    });
-  }
-  else {
-    if (type === 'error') {
-      console.error.apply (console, list);
     }
-    else if (message) {
-      console.log.apply (console, list);
-    }
-  
-    if (trace) {
-      console.error (trace);
-    }
-  }
+  });
 }
 
 export async function showLog (details = {}) {
@@ -166,8 +151,7 @@ export async function showLog (details = {}) {
   let { lines = true, section = false } = show;
 
   if (section === true) {
-    console.log ('');
-    console.log ('---------------------------------');
+    console.log ('\n---------------------------------');
   }
 
   log.forEach ((entry) => {
@@ -190,13 +174,6 @@ export async function showLog (details = {}) {
       func ([message].join (' '));
     }
   });
-}
-
-export async function showResultLog (details = {}) {
-  let { result, show } = details;
-  if (result) {
-    await showLog ({ log: result.data.log, show });
-  }
 }
 
 export async function send (details = {}) {
@@ -282,10 +259,6 @@ export async function addResultError (details = {}) {
       throw new Error (error);
     }
   }
-
-  // if (trace) {
-  //   await log ({ trace });
-  // }
 }
 
 export async function addResultItem (details = {}) {
@@ -360,27 +333,42 @@ listen ({
 // Forward Message
 
 export async function getItemFromForwardResult (details = {}) {
+  let { _extra } = details;
   let nested, outcome, result;
   
-  result = await forward (details);
-  nested = result.data.item.list [0];
-  // console.log (JSON.stringify (result, null, 2));
-  
-  if (nested.data.status.code < 400) {
-    outcome = nested.data.item.list [0];
-    // console.log (JSON.stringify (outcome, null, 2));
+  try {
+    result = await forward (details);
+    nested = result.data.item.list [0];
+    // console.log (JSON.stringify (result, null, 2));
+
+    if (nested.data.status.code < 400) {
+      outcome = nested.data.item.list [0];
+      // console.log (JSON.stringify (outcome, null, 2));
+    }
+    else {
+      // console.log (nested);
+      await log ({
+        _extra: { result },
+//        message: 'ERROR: ' + nested.data.error.list.join ('\nERROR: '), 
+        list: nested.data.error.list,
+        type: 'error',
+      });
+      throw new Error ([
+        'Result:',
+        nested.data.status.code,
+        nested.data.status.message,
+      ].join (' '));
+    }
   }
-  else {
-    // console.log (nested);
-    log ({ 
-      message: 'ERROR: ' + nested.data.error.list.join ('\nERROR: '), 
+  catch (err) {
+    await log ({ 
+      _extra: { result },
+      message: err.message, 
       type: 'error',
     });
-    throw new Error ([
-      nested.data.status.code,
-      nested.data.status.message,
-    ].join (' '));
   }
+  
+  await showResultLog ({ result });
   
   return outcome;
 }
@@ -400,3 +388,11 @@ export async function forward (details = {}) {
 
   return result;
 }
+
+export async function showResultLog (details = {}) {
+  let { result, show } = details;
+  if (result) {
+    await showLog ({ log: result.data.log, show });
+  }
+}
+

@@ -44,11 +44,6 @@ listen ({
       });
       await log ({ _extra, message: 'BROWSER: ' + browser.asJson () });
 
-      setTimeout (async () => {
-        console.log ('NOTE: closing down the browser');
-        await getItemFromForwardResult ({ path: 'api/0.1.0/thetrg/tm-behave/autobot/browser/_item/server/logic/close' });
-      }, (1000 * 1));
-
       // -----------------------------------------
       // Post condition checks
     }

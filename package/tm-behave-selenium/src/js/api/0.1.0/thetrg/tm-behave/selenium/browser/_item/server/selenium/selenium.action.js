@@ -37,7 +37,7 @@ listen ({
         await log ({ _extra, message: 'BROWSER: ' + browser.asJson () });
       }
       else {
-        await addResultError ({ _extra, message: 'A browser is already open', prefix: LOG_PREFIX, trace: err });
+        await addResultError ({ _extra, message: 'A browser is already open', prefix: LOG_PREFIX, throw: true });
       }
 
       // -----------------------------------------
