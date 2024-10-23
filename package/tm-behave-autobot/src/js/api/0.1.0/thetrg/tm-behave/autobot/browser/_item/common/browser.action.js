@@ -32,7 +32,7 @@ listen ({
           browser: {
             data: {
               options: {
-                headless: { active: false, value: '--headless' },
+                headless: { active: !false, value: '--headless' },
               }
             }
           }

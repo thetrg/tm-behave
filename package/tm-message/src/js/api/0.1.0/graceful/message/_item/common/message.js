@@ -52,8 +52,31 @@ export function listen (details = {}) {
   }
 }
 
+export async function findLogFileName (details = {}) {
+  let { stack } = details;
+  let end, i, item, list;
+  
+  stack = stack.replace ('Error: line', '').trim ();
+  list = stack.split ('\n');
+  // console.log (list);
+  end = list.length;
+  for (i = 0; i < end; i++) {
+    item = list [i];
+    if (
+      item.indexOf ('/_item/common/message.js') === -1
+      && item.indexOf ('node:internal/process/task_queues') === -1
+    ) {
+      
+      if (item.indexOf ('socket.js') > -1) {         
+        console.log ('LAME:', details.stack);
+      }
+      return item;
+    }
+  }
+}
+  
 export async function getLogLineInfo (details = {}) {
-  let file, index, line, parts, result, stack;
+  let file, index, line, parts, result;
   
   result = {
     text: '',
@@ -63,14 +86,15 @@ export async function getLogLineInfo (details = {}) {
     throw new Error ('line');
   }
   catch (err) {
-    stack = err.stack;
-    file = stack.split ('\n');
-    console.log (file);
-    file = file [5];
+    file = await findLogFileName ({ stack: err.stack });
+    
+    // console.log ('FILE:', file);
     index = file.lastIndexOf ('/') + 1;
     line = file.substring (index);
-
+  
     parts = line.split (':');
+    // console.log ('PARTS:', parts, line);
+
     line = parts [0];
     index = line.lastIndexOf ('?');
     if (index > -1) {
@@ -79,9 +103,10 @@ export async function getLogLineInfo (details = {}) {
 
     result.file = line;
     result.row = parts [1];
+    // console.log (parts);
     result.column = parts [2].replace (')', '');
-
-    result.text = ['[', result.file, ' ', result.row, ':', result.column, ']'].join ('');
+    
+    result.text = ['[', result.file, ' - ', result.row, ':', result.column, ']'].join ('');
 
     // line = line + ' (' + parts [1] + ':' + parts [2];
     // console.log ('- line:', result);
@@ -110,7 +135,15 @@ export async function log (details = {}) {
     line = await getLogLineInfo ();
     list.forEach ((item) => {
       let entry;
-      entry = { message, type, temp: { line } };
+      entry = { 
+        data: {
+          message, 
+          type, 
+        },
+        temp: { 
+          line, 
+        }, 
+      };
       result.data.log.push (entry);
     });
   }
@@ -138,14 +171,23 @@ export async function showLog (details = {}) {
   }
 
   log.forEach ((entry) => {
-    let { message, temp } = entry;
+    let { data, temp } = entry;
+    let { message, type } = data;
     let { line } = temp;
-
+    let func, typePrefix;
+    
+    func = console.log;
+    if (type === 'error') {
+      typePrefix = 'ERROR:';
+      message = typePrefix + ' ' + message;
+      func = console.error; 
+    }
+    
     if (lines === true) {
-      console.log ([line.text, message].join (' '));
+      func ([line.text, message].join (' '));
     }
     else {
-      console.log ([message].join (' '));
+      func ([message].join (' '));
     }
   });
 }
@@ -185,13 +227,13 @@ export async function send (details = {}) {
     else {
       result.data.status.code = 500;
       result.data.status.message = 'Internal Error';
-      await addResultError ({ _extra: { result }, error: `Something went wrong on: [${path}]`, show: !true });
+//      await addResultError ({ _extra: { result }, error: `Something went wrong on: [${path}]`, show: !true });
     }
   }
   else {
     result.data.status.code = 404;
     result.data.status.message = 'Not Found';
-    await addResultError ({ _extra: { result }, error: `Message send path not found: [${path}]`, show: true });
+//    await addResultError ({ _extra: { result }, error: `Message send path not found: [${path}]`, show: true });
   }
   return result;
 }
