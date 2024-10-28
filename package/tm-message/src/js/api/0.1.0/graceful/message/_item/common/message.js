@@ -244,6 +244,9 @@ export async function runNext (details = {}) {
 // ----------------------------------------------------
 // Result
 
+export async function checkForErrors (details = {}) {
+}
+  
 export async function addResultError (details = {}) {
   let { _extra = {}, message, show, trace, throw: throwError } = details;
   let { result } = _extra;

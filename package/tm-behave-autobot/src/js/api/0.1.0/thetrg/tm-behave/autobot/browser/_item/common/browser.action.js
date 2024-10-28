@@ -3,6 +3,7 @@ import {
 } from './browser.js';
 import {
   addResultError,
+  checkForErrors,
   getItemFromForwardResult,
   listen,
   log,
@@ -12,7 +13,33 @@ const LOG_PREFIX = '[ACTION] Browser - ';
 
 listen ({
   path: 'api/0.1.0/thetrg/tm-behave/autobot/browser/_item/common/open',
-  async run (details = {}) {  
+  prefix: LOG_PREFIX,
+  note: 'Open a browser',
+  before (details = {}) {
+    // Pre condition checks
+    let browser, result;
+  },
+  async run (details = {}) {
+    let { browser, result } = details;    
+
+    browser = await getItemFromForwardResult ({
+      path: 'api/0.1.0/thetrg/tm-behave/autobot/browser/_item/server/logic/open',
+      details: { 
+        browser: {
+          data: {
+            options: {
+              headless: { active: !false, value: '--headless' },
+            }
+          }
+        }
+      },
+    });
+  
+    result = await setBrowser ({
+      browser: result,
+    });
+  
+    /*
     let { _extra } = details;
     let action;
 
@@ -42,14 +69,19 @@ listen ({
       browser = await setBrowser ({
         browser: result,
       });
-      await log ({ _extra, message: 'BROWSER: ' + browser.asJson () });
 
       // -----------------------------------------
       // Post condition checks
+      checkForErrors ({ items: [browser] });
     }
     catch (err) {
       await addResultError ({ _extra, error: `Unable to ${action}`, prefix: LOG_PREFIX, show: true, trace: err });
     }
+    */
+  },
+  after (details = {}) {
+    // Post condition checks
+    checkForErrors ({ items: [browser] });
   },
 });
 

@@ -72,6 +72,8 @@ export async function getBrowser (details = {}) {
 
 export async function setBrowser (details = {}) {
   let browser = shared.browser;
+  
+//  await log ({ _extra, message: 'BROWSER: ' + browser.asJson () });
   if (!browser) {
     browser = await createBrowser (details);
     shared.browser = browser;
