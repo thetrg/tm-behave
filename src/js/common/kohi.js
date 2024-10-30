@@ -19,7 +19,7 @@ export function addChildSpec (details = {}) {
 
 async function afterTests () {
   console.log ('- all done');
-  await checkApiStatus ();
+  // await checkApiStatus ();
   // await postCodeCoverage ();
 }
 
