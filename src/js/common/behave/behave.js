@@ -18,7 +18,7 @@ export function addChildSpec (details = {}) {
 }
 
 async function afterTests () {
-  console.log ('- all done');
+  // console.log ('- all done');
   // await checkApiStatus ();
   // await postCodeCoverage ();
 }
@@ -75,6 +75,9 @@ async function checkApiStatus (details = {}) {
 export function createRunner () {
   let runner, root;
   runner = {
+    data: {
+      stats: {},
+    },
     only: [],
     registry: {},
     root: null,
@@ -84,6 +87,7 @@ export function createRunner () {
       fail: 0,
       pass: 0,
       todo: 0,
+      total: 0,
     },
   }
   if (!shared.runner) { shared.runner = runner; }
@@ -191,12 +195,33 @@ async function postCodeCoverage (details = {}) {
   }
 }
 
-export async function run () {
-  let end, runner, start, time;
+function resetStats (details = {}) {
+  let { stats } = details
+  stats.fail = 0;
+  stats.pass = 0;
+  stats.todo = 0;
+  stats.total = 0;
+}
+
+function reset (details = {}) {
+  let { runner } = details;
+  let stats;
+  
+  // TEMP: Refactor and remove
+  resetStats ({ stats: runner.stats });
+  resetStats ({ stats: runner.data.stats });
+}
+
+export async function run (details = {}) {
+  let { show } = details;
+  let runner, stats;
   
   // Prepare the specs for running
-  start = Date.now ();
   runner = getRunner ();
+  reset ({ runner });
+  
+  stats = runner.data.stats;
+  stats.start = Date.now ();
   
   // Run the specs
   await runNextSpec ({ 
@@ -204,16 +229,25 @@ export async function run () {
     list: [runner.root],
     runner, 
   });
-  console.log ('- results:', runner.stats);
+//  console.log ('- results:', runner.stats);
   
   // Show the results
-  end = Date.now ();
-  time = end - start;
-  console.log (`- time(ms): [${time}]   start: [${start}] end: [${end}]`);
+  stats.end = Date.now ();
+  stats.time = stats.end - stats.start;
+//  console.log (`- time(ms): [${time}]   start: [${start}] end: [${end}]`);
   // console.log (runner);
   // console.log (JSON.stringify (runner, null, 2))
   // console.log (JSON.stringify (runner.root, null, 2))
   await afterTests ();
+  
+  Object.assign (runner.data.stats, runner.stats);
+  
+  if (show === true) {
+    console.log ('- results:', stats);
+    console.log (`- time(ms): [${stats.time}]   start: [${stats.start}] end: [${stats.end}]`);
+  }
+  
+  return runner;
 }
 
 async function runNextSpec (details = {}) {
