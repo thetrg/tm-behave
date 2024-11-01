@@ -76,6 +76,10 @@ export function createRunner () {
   let runner, root;
   runner = {
     data: {
+      error: {
+        list: [],
+      },
+      show: false,
       stats: {},
     },
     only: [],
@@ -195,6 +199,13 @@ async function postCodeCoverage (details = {}) {
   }
 }
 
+function resetErrors (details = {}) {
+  let { runner } = details;
+  let { data } = runner;
+  let { error } = data;
+  error.list = [];
+}
+
 function resetStats (details = {}) {
   let { stats } = details
   stats.fail = 0;
@@ -210,15 +221,18 @@ function reset (details = {}) {
   // TEMP: Refactor and remove
   resetStats ({ stats: runner.stats });
   resetStats ({ stats: runner.data.stats });
+  resetErrors ({ runner });
 }
 
 export async function run (details = {}) {
-  let { show } = details;
+  let { show = false } = details;
   let runner, stats;
   
   // Prepare the specs for running
   runner = getRunner ();
   reset ({ runner });
+
+  runner.data.show = show;
   
   stats = runner.data.stats;
   stats.start = Date.now ();
@@ -287,8 +301,14 @@ async function runNextSpec (details = {}) {
       catch (err) {
         runner.stats.fail = runner.stats.fail + 1;
         spec.stats.status = FAIL_RESULT;
-        console.error (`- FAIL: ${spec.name}`);
-        console.error (err);
+        
+        runner.data.error.list.push (err.message);
+        runner.data.error.list.push (err.stack);
+        
+        if (runner.data.show === true) {
+          console.error (`- FAIL: ${spec.name}`);
+          console.error (err);
+        }
       }
     }
     else {
