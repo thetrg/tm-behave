@@ -224,7 +224,7 @@ function reset (details = {}) {
   resetErrors ({ runner });
 }
 
-export async function run (details = {}) {
+export async function runSpecs (details = {}) {
   let { show = false } = details;
   let runner, stats;
   
@@ -263,6 +263,8 @@ export async function run (details = {}) {
   
   return runner;
 }
+
+export const run = runSpecs;
 
 async function runNextSpec (details = {}) {
   let { index, list, runner } = details;
